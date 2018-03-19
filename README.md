@@ -18,11 +18,11 @@ You can support the development by making a donation, it will be appreciated!
 ![](https://github.com/koralfx/KoralfxVCV/blob/master/KoralfxVCV_Plugins.png)
 
 
-##Mixovnik
+## Mixovnik
 A constant-power panning 16-channel mixer width two AUX sends, external mix input and CV Pan inputs (bipolar mode).
 
 
-##Quantovnik
+## Quantovnik
 A pitch quantizer with note info and bipolar-unipolar converter. Also with octave and course shift.
 
 
