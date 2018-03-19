@@ -1,0 +1,11 @@
+# build artifacts
+build/
+dist/
+
+# compiled plugin
+plugin.dylib
+plugin.dll
+plugin.so
+
+# mac fs metadata
+.DS_Store
