@@ -76,6 +76,11 @@ void Mixovnik::step() {
 		
 		//Constant-power panning
 		float KNOB_PAN_POS = params[PAN_PARAM + i].value + (inputs[STRIPE_CV_PAN_INPUT + i].value / 5);
+
+		//Anti invert phase
+		if (KNOB_PAN_POS < -1) KNOB_PAN_POS = -1;
+		if (KNOB_PAN_POS > 1) KNOB_PAN_POS = 1;
+
 		double angle = KNOB_PAN_POS * PI_4;
 		float GAIN_SIGNAL_L = (float) (SQRT2_2 * (cos(angle) - sin(angle)));
 		float GAIN_SIGNAL_R = (float) (SQRT2_2 * (cos(angle) + sin(angle)));

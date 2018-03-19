@@ -2,7 +2,7 @@
 SLUG = KoralfxVCV
 
 # Must follow the format in the Versioning section of https://vcvrack.com/manual/PluginDevelopmentTutorial.html
-VERSION = 0.5.0
+VERSION = 0.5.1
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=
