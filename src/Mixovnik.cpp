@@ -98,7 +98,7 @@ void Mixovnik::step() {
 		SUM_AUX2_R += KNOB_AUX2_POS * INPUT_SIGNAL * GAIN_SIGNAL_R;
 
 		//Lights
-		float SIGNAL_LEVEL_ABS = abs(INPUT_SIGNAL);
+		float SIGNAL_LEVEL_ABS = fabs(INPUT_SIGNAL);
 
 		if (SIGNAL_LEVEL_ABS == 0) {
 			lights[SIGNAL_LIGHT_NORMAL + i*2 +0].value = 0;
@@ -152,11 +152,11 @@ void Mixovnik::step() {
 	outputs[STEREO_OUTPUT_R].value = SUM_R;
 
 	//Mix lights
-	lights[MIX_LIGHT_L].value = (abs(SUM_L) > 5) ? 1.0 : 0.0;
-	lights[MIX_LIGHT_R].value = (abs(SUM_R) > 5) ? 1.0 : 0.0;
+	lights[MIX_LIGHT_L].value = (fabs(SUM_L) > 5) ? 1.0 : 0.0;
+	lights[MIX_LIGHT_R].value = (fabs(SUM_R) > 5) ? 1.0 : 0.0;
 
-	lights[AUX1_LIGHT].value = (abs(AUX1_SUM_L) > 5 || abs(AUX1_SUM_R)  > 5) ? 1.0 : 0.0;
-	lights[AUX2_LIGHT].value = (abs(AUX2_SUM_L) > 5 || abs(AUX2_SUM_R)  > 5) ? 1.0 : 0.0;
+	lights[AUX1_LIGHT].value = (fabs(AUX1_SUM_L) > 5 || fabs(AUX1_SUM_R)  > 5) ? 1.0 : 0.0;
+	lights[AUX2_LIGHT].value = (fabs(AUX2_SUM_L) > 5 || fabs(AUX2_SUM_R)  > 5) ? 1.0 : 0.0;
 }
 
 

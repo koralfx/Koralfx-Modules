@@ -1,6 +1,7 @@
 # build artifacts
 build/
 dist/
+*.ai
 
 # compiled plugin
 plugin.dylib
