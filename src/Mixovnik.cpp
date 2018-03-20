@@ -266,3 +266,4 @@ MixovnikWidget::MixovnikWidget() {
 	addChild(createLight<SmallLight<RedLight>>	(Vec(788,134), module, Mixovnik::MIX_LIGHT_L));
 	addChild(createLight<SmallLight<RedLight>>	(Vec(826,134), module, Mixovnik::MIX_LIGHT_R));
 }
+

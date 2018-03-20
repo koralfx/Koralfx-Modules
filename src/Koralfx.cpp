@@ -11,8 +11,9 @@ void init(rack::Plugin *p) {
 	// To guarantee uniqueness, it is a good idea to prefix the slug by your name, alias, or company name if available, e.g. "MyCompany-MyPlugin".
 	// The ZIP package must only contain one folder, with the name equal to the plugin's slug.
 	//p->slug = TOSTRING(SLUG);
+	//p->version = TOSTRING(VERSION);
 	p->slug = "KoralfxVCV";
-	p->version = TOSTRING(VERSION);
+	p->version = "0.5.4";	
 	p->website = "https://github.com/koralfx/KoralfxVCV";
 	p->manual = "https://github.com/koralfx/KoralfxVCV/blob/master/README.md";
 
@@ -24,4 +25,4 @@ void init(rack::Plugin *p) {
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.
 }
-
+//_
