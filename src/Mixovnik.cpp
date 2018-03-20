@@ -85,7 +85,7 @@ void Mixovnik::step() {
 			if (params[LINK_PARAM + ((i-1)/2)].value == 0) {
 				INPUT_SIGNAL = inputs[STRIPE_INPUT + i].value * cvVolumeRatio[i] * params[VOLUME_PARAM + i].value * ((params[MUTE_PARAM + i].value ==  0) ? 1.0 : 0.0);
 			} else {
-				INPUT_SIGNAL = inputs[STRIPE_INPUT + i].value * cvVolumeRatio[i-1] * params[VOLUME_PARAM + (i - 1)].value;
+				INPUT_SIGNAL = inputs[STRIPE_INPUT + i].value * cvVolumeRatio[i-1] * params[VOLUME_PARAM + (i - 1)].value * ((params[MUTE_PARAM + i -1].value ==  0) ? 1.0 : 0.0);
 			}
 
 		}
