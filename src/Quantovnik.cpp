@@ -74,8 +74,8 @@ QuantovnikWidget::QuantovnikWidget() {
 	addParam(createParam<RoundBlackKnob>(Vec(47, 113),	module, Quantovnik::COURSE_PARAM,	-1, 1, 0.0));
 
 	//Switches
-	addParam(createParam<Koralfx_Switch>(Vec(18, 253),	module, Quantovnik::CV_IN_PARAM,	0.0, 1.0, 1.0));
-	addParam(createParam<Koralfx_Switch>(Vec(58, 253),	module, Quantovnik::CV_OUT_PARAM,	0.0, 1.0, 0.0));
+	addParam(createParam<Koralfx_Switch_Red>(Vec(18, 253),	module, Quantovnik::CV_IN_PARAM,	0.0, 1.0, 1.0));
+	addParam(createParam<Koralfx_Switch_Red>(Vec(58, 253),	module, Quantovnik::CV_OUT_PARAM,	0.0, 1.0, 0.0));
 
 	//Inputs
 	addInput(createInput<PJ301MPort>	(Vec(13, 298),	module, Quantovnik::CV_PITCH_INPUT));

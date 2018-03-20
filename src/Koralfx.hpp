@@ -19,7 +19,6 @@ struct MixovnikWidget : ModuleWidget {
 };
 
 
-
 //////////////////////////////////////
 //MODULE COMPONENTS
 /////////////////////////////////////
@@ -36,11 +35,16 @@ struct Koralfx_SliderPot : SVGSlider {
 		handle->wrap();
 	}
 };
-struct Koralfx_Switch : SVGSwitch, ToggleSwitch {
-	Koralfx_Switch() {
+struct Koralfx_Switch_Red : SVGSwitch, ToggleSwitch {
+	Koralfx_Switch_Red() {
 		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_1.svg")));
+		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_1_Red.svg")));
 	}
-
+};
+struct Koralfx_Switch_Blue : SVGSwitch, ToggleSwitch {
+	Koralfx_Switch_Blue() {
+		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_1_Blue.svg")));
+	}
 
 };
