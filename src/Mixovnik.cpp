@@ -165,13 +165,18 @@ void Mixovnik::step() {
 
 	//Mix sliders
 	SUM_L *=  params[MIX_L_VOLUME].value;
-	//SUM_R *=  params[MIX_R_VOLUME].value;
 	SUM_R *= ((params[MIX_LINK].value ==  0) ? params[MIX_R_VOLUME].value : params[MIX_L_VOLUME].value);
 
 	//Final mix with mute switches
 	SUM_L *= ((params[MIX_L_MUTE].value ==  0) ? 1.0 : 0.0);
-	SUM_R *= ((params[MIX_R_MUTE].value ==  0) ? 1.0 : 0.0);
 	
+	if (params[MIX_LINK].value == 1) {
+		SUM_R *= ((params[MIX_L_MUTE].value ==  0) ? 1.0 : 0.0);
+	} else {
+		SUM_R *= ((params[MIX_R_MUTE].value ==  0) ? 1.0 : 0.0);
+	}
+
+	//Final out
 	outputs[STEREO_OUTPUT_L].value = SUM_L;
 	outputs[STEREO_OUTPUT_R].value = SUM_R;
 
