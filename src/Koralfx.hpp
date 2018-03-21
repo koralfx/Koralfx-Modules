@@ -48,3 +48,11 @@ struct Koralfx_Switch_Blue : SVGSwitch, ToggleSwitch {
 	}
 
 };
+
+struct Koralfx_Switch_Green : SVGSwitch, ToggleSwitch {
+	Koralfx_Switch_Green() {
+		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin,"res/Koralfx_Switch_1_Green.svg")));
+	}
+
+};

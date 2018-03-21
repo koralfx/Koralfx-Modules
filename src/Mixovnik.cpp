@@ -19,7 +19,8 @@ struct Mixovnik : Module {
 		AUX2_PARAM = AUX1_PARAM + 16,
 		VOLUME_PARAM = AUX2_PARAM + 16,
 		MUTE_PARAM = VOLUME_PARAM + 16,
-		NUM_PARAMS = MUTE_PARAM + 16
+		SOLO_PARAM = MUTE_PARAM + 16,
+		NUM_PARAMS = SOLO_PARAM + 16
 	};
 	enum InputIds {
 		STEREO_INPUT_L,
@@ -70,6 +71,19 @@ void Mixovnik::step() {
 	float SUM_AUX2_R = 0.0;
 
 	float cvVolumeRatio[16];
+
+
+	//Solo test
+	bool soloTest = false;
+	int step = 0;
+	do  {
+		if (params[SOLO_PARAM + step].value == 1) soloTest = true;
+		step++;
+	} while (!soloTest && step < 16);
+
+
+
+
 	// Main loop
 	for (int i = 0; i < 16; i++) {
 
@@ -80,6 +94,9 @@ void Mixovnik::step() {
 	if (inputs[STRIPE_CV_VOL_INPUT + i].active) cvVolumeRatio[i] = inputs[STRIPE_CV_VOL_INPUT + i].value/10;
 
 		if (i%2 == 0) {
+			if (soloTest && params[LINK_PARAM + (i/2)].value == 1) {
+				params[SOLO_PARAM + i +1].value = params[SOLO_PARAM + i].value;
+			}
 			INPUT_SIGNAL = inputs[STRIPE_INPUT + i].value * cvVolumeRatio[i] * params[VOLUME_PARAM + i].value * ((params[MUTE_PARAM + i].value ==  0) ? 1.0 : 0.0);
 		} else {
 			if (params[LINK_PARAM + ((i-1)/2)].value == 0) {
@@ -90,7 +107,9 @@ void Mixovnik::step() {
 
 		}
 
-
+		if (soloTest) {
+			if (params[SOLO_PARAM + i].value == 0) INPUT_SIGNAL = 0;
+		}
 
 		//Constant-power panning
 		float KNOB_PAN_POS = params[PAN_PARAM + i].value + (inputs[STRIPE_CV_PAN_INPUT + i].value / 5);
@@ -169,7 +188,7 @@ void Mixovnik::step() {
 
 	//Final mix with mute switches
 	SUM_L *= ((params[MIX_L_MUTE].value ==  0) ? 1.0 : 0.0);
-	
+
 	if (params[MIX_LINK].value == 1) {
 		SUM_R *= ((params[MIX_L_MUTE].value ==  0) ? 1.0 : 0.0);
 	} else {
@@ -209,15 +228,15 @@ MixovnikWidget::MixovnikWidget() {
 
 	//Set base position
 	float xPos = 17;
-	float yPos = 35;
+	float yPos = 20;
 	float xDelta = 40;
 	
 	//AUX1 inputs and outputs
-	addInput(createInput<PJ301MPort>(Vec(694, yPos - 6), module, Mixovnik::AUX1_INPUT_L));
-	addInput(createInput<PJ301MPort>(Vec(733, yPos - 6), module, Mixovnik::AUX1_INPUT_R));
+	addInput(createInput<PJ301MPort>(Vec(694, yPos +7), module, Mixovnik::AUX1_INPUT_L));
+	addInput(createInput<PJ301MPort>(Vec(733, yPos +7), module, Mixovnik::AUX1_INPUT_R));
 
-	addOutput(createOutput<PJ301MPort>(Vec(780, yPos - 6), module, Mixovnik::AUX1_OUTPUT_L));
-	addOutput(createOutput<PJ301MPort>(Vec(815, yPos - 6), module, Mixovnik::AUX1_OUTPUT_R));
+	addOutput(createOutput<PJ301MPort>(Vec(780, yPos +7), module, Mixovnik::AUX1_OUTPUT_L));
+	addOutput(createOutput<PJ301MPort>(Vec(815, yPos +7), module, Mixovnik::AUX1_OUTPUT_R));
 
 	//AUX2 inputs and outputs
 	addInput(createInput<PJ301MPort>(Vec(694, yPos + 45), module, Mixovnik::AUX2_INPUT_L));
@@ -237,16 +256,17 @@ MixovnikWidget::MixovnikWidget() {
   
     //Stripes elements
 	for (int i = 0; i < 16; i++) {
-		addChild(createLight<SmallLight<GreenRedLight>>	(Vec(xPos + 5 + i*xDelta,	yPos -  16), module, Mixovnik::SIGNAL_LIGHT_NORMAL + i*2));
+		addChild(createLight<SmallLight<GreenRedLight>>	(Vec(xPos + 27 + i*xDelta,	yPos + 110), module, Mixovnik::SIGNAL_LIGHT_NORMAL + i*2));
 		addParam(createParam<RoundSmallBlackKnob>		(Vec(xPos + 0 + i*xDelta,	yPos +   0), module, Mixovnik::AUX1_PARAM + i, 0, 1, 0.0));
 		addParam(createParam<RoundSmallBlackKnob>		(Vec(xPos + 0 + i*xDelta,	yPos +  37), module, Mixovnik::AUX2_PARAM + i, 0, 1, 0.0));
 		addParam(createParam<RoundSmallBlackKnob>		(Vec(xPos + 0 + i*xDelta,	yPos +  76), module, Mixovnik::PAN_PARAM + i, -1, 1, 0.0));
 		addParam(createParam<Koralfx_SliderPot>			(Vec(xPos + 3 + i*xDelta,	yPos + 110), module, Mixovnik::VOLUME_PARAM + i, 0.0f, 1.0f, 0.9f));
 		addParam(createParam<Koralfx_Switch_Red>		(Vec(xPos + 8 + i*xDelta,	yPos + 228), module, Mixovnik::MUTE_PARAM + i, 0.0, 1.0, 0.0));
 		if (i%2 == 0) addParam(createParam<Koralfx_Switch_Blue>(Vec(xPos + 8 + (i+0.5)*xDelta,	yPos + 228), module, Mixovnik::LINK_PARAM + (i/2), 0.0, 1.0, 0.0));
-		addInput(createInput<PJ301MPort>				(Vec(xPos + 3 + i*xDelta,	yPos + 251), module, Mixovnik::STRIPE_INPUT + i));
-		addInput(createInput<PJ301MPort>				(Vec(xPos + 3 + i*xDelta,	yPos + 277), module, Mixovnik::STRIPE_CV_PAN_INPUT + i));
-		addInput(createInput<PJ301MPort>				(Vec(xPos + 3 + i*xDelta,	yPos + 303), module, Mixovnik::STRIPE_CV_VOL_INPUT + i));
+		addInput(createInput<PJ301MPort>				(Vec(xPos + 3 + i*xDelta,	yPos + 266), module, Mixovnik::STRIPE_INPUT + i));
+		addInput(createInput<PJ301MPort>				(Vec(xPos + 3 + i*xDelta,	yPos + 292), module, Mixovnik::STRIPE_CV_PAN_INPUT + i));
+		addInput(createInput<PJ301MPort>				(Vec(xPos + 3 + i*xDelta,	yPos + 318), module, Mixovnik::STRIPE_CV_VOL_INPUT + i));
+		addParam(createParam<Koralfx_Switch_Green>		(Vec(xPos + 8 + i*xDelta,	yPos + 245), module, Mixovnik::SOLO_PARAM + i, 0.0, 1.0, 0.0));
 	}
 
 	//Final volume sliders
@@ -265,10 +285,10 @@ MixovnikWidget::MixovnikWidget() {
 	addParam(createParam<Koralfx_Switch_Blue>(Vec(xPos + 7 + 19.5*xDelta, yPos + 227), module, Mixovnik::MIX_LINK, 0, 1, 0));
 
 	//Final mix lights
-	addChild(createLight<SmallLight<RedLight>>	(Vec(703,134), module, Mixovnik::AUX1_LIGHT));
-	addChild(createLight<SmallLight<RedLight>>	(Vec(743,134), module, Mixovnik::AUX2_LIGHT));
+	addChild(createLight<SmallLight<RedLight>>	(Vec(703,120), module, Mixovnik::AUX1_LIGHT));
+	addChild(createLight<SmallLight<RedLight>>	(Vec(743,120), module, Mixovnik::AUX2_LIGHT));
 
-	addChild(createLight<SmallLight<RedLight>>	(Vec(788,134), module, Mixovnik::MIX_LIGHT_L));
-	addChild(createLight<SmallLight<RedLight>>	(Vec(826,134), module, Mixovnik::MIX_LIGHT_R));
+	addChild(createLight<SmallLight<RedLight>>	(Vec(788,120), module, Mixovnik::MIX_LIGHT_L));
+	addChild(createLight<SmallLight<RedLight>>	(Vec(826,120), module, Mixovnik::MIX_LIGHT_R));
 }
 
