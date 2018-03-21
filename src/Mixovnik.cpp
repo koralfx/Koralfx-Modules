@@ -1,6 +1,9 @@
 #include "Koralfx.hpp"
+//#include "Mixovnik.hpp"
+
 #define PI_4 0.78539816339
 #define SQRT2_2 0.70710678118
+
 
 struct Mixovnik : Module {
 	enum ParamIds {
@@ -53,14 +56,24 @@ struct Mixovnik : Module {
 		NUM_LIGHTS = SIGNAL_LIGHT_NORMAL + 32
 	};
 
+
+	enum DynamicViewMode {
+   	ACTIVE_LOW,
+   	ACTIVE_HIGH
+	};
+	int panelStyle = 0;
+    json_t *toJson() override;
+    void fromJson(json_t *rootJ) override;
+
 	Mixovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 	void step() override;
 };
 
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------- MAIN  ----------------------------------------------
+//------------------------------------------------------------------------------------------------------
 
 void Mixovnik::step() {
-
-
 
 	float SUM_L = 0.0;
 	float SUM_R = 0.0;
@@ -208,23 +221,96 @@ void Mixovnik::step() {
 }
 
 
+json_t *Mixovnik::toJson() {
+    json_t *rootJ = json_object();
+    json_object_set_new(rootJ, "panelStyle", json_integer(panelStyle));
+
+    return rootJ;
+}
+
+void Mixovnik::fromJson(json_t *rootJ) {
+    json_t *j_panelStyle = json_object_get(rootJ, "panelStyle");
+    panelStyle = json_integer_value(j_panelStyle);
+}
+
+
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------------- GUI  ----------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+//Panel Border and Dynamic panel code is adapted from The Dexter by Dale Johnson
+//https://github.com/ValleyAudio
+
+struct PanelBorder : TransparentWidget {
+	void draw(NVGcontext *vg) override {
+		NVGcolor borderColor = nvgRGBAf(0.5, 0.5, 0.5, 0.5);
+		nvgBeginPath(vg);
+		nvgRect(vg, 0.5, 0.5, box.size.x - 1.0, box.size.y - 1.0);
+		nvgStrokeColor(vg, borderColor);
+		nvgStrokeWidth(vg, 1.0);
+		nvgStroke(vg);
+	}
+};
+
+struct DynamicPanelMixovnik : FramebufferWidget {
+    int* mode;
+    int oldMode;
+    std::vector<std::shared_ptr<SVG>> panels;
+    SVGWidget* panel;
+
+    DynamicPanelMixovnik() {
+        mode = nullptr;
+        oldMode = -1;
+        panel = new SVGWidget();
+        addChild(panel);
+        addPanel(SVG::load(assetPlugin(plugin, "res/Mixovnik-Dark.svg")));
+        addPanel(SVG::load(assetPlugin(plugin, "res/Mixovnik-Light.svg")));
+        PanelBorder *pb = new PanelBorder();
+        pb->box.size = box.size;
+        addChild(pb);
+    }
+
+    void addPanel(std::shared_ptr<SVG> svg) {
+        panels.push_back(svg);
+        if(!panel->svg) {
+            panel->setSVG(svg);
+            box.size = panel->box.size.div(RACK_GRID_SIZE).round().mult(RACK_GRID_SIZE);
+        }
+    }
+
+    void step() override {
+        if (nearf(gPixelRatio, 1.f)) {
+            oversample = 2.f;
+        }
+        if(mode != nullptr && *mode != oldMode) {
+            panel->setSVG(panels[*mode]);
+            oldMode = *mode;
+            dirty = true;
+        }
+    }
+};
+
+
+
+
 MixovnikWidget::MixovnikWidget() {
 	Mixovnik *module = new Mixovnik();
 	setModule(module);
 	box.size = Vec(58 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/Mixovnik.svg")));
-		addChild(panel);
+		DynamicPanelMixovnik *panel = new DynamicPanelMixovnik();
+        panel->box.size = box.size;
+        panel->mode = &module->panelStyle;
+        addChild(panel);
 	}
 
 	//Standard screws
-	addChild(createScrew<ScrewSilver>(Vec(0, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	//addChild(createScrew<ScrewSilver>(Vec(0, 0)));
+	//addChild(createScrew<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, 0)));
+	//addChild(createScrew<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	//addChild(createScrew<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 	//Set base position
 	float xPos = 17;
@@ -290,5 +376,54 @@ MixovnikWidget::MixovnikWidget() {
 
 	addChild(createLight<SmallLight<RedLight>>	(Vec(788,120), module, Mixovnik::MIX_LIGHT_L));
 	addChild(createLight<SmallLight<RedLight>>	(Vec(826,120), module, Mixovnik::MIX_LIGHT_R));
+
+
+}
+
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------- Context Menu --------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+//Context menu code is adapted from The Dexter by Dale Johnson
+//https://github.com/ValleyAudio
+
+struct MixovnikPanelStyleItem : MenuItem {
+   Mixovnik* mixovnik;
+    int panelStyle;
+    void onAction(EventAction &e) override {
+       mixovnik->panelStyle = panelStyle;
+    }
+    void step() override {
+        rightText = (mixovnik->panelStyle == panelStyle) ? "✔" : "";
+    }
+};
+
+Menu* MixovnikWidget::createContextMenu() {
+    Menu* menu = ModuleWidget::createContextMenu();
+    Mixovnik* mixovnik = dynamic_cast<Mixovnik*>(module);
+    assert(mixovnik);
+
+    // Panel Style
+    MenuLabel *panelStyleSpacerLabel = new MenuLabel();
+    menu->addChild(panelStyleSpacerLabel);
+    MenuLabel *panelStyleLabel = new MenuLabel();
+    panelStyleLabel->text = "Frame of mind";
+    menu->addChild(panelStyleLabel);
+
+    MixovnikPanelStyleItem *darkPanelStyleItem = new MixovnikPanelStyleItem();
+    darkPanelStyleItem->text = "Dark Calm Night";
+    darkPanelStyleItem->mixovnik = mixovnik;
+    darkPanelStyleItem->panelStyle = 0;
+    menu->addChild(darkPanelStyleItem);
+
+    MixovnikPanelStyleItem *lightPanelStyleItem = new MixovnikPanelStyleItem();
+    lightPanelStyleItem->text = "Happy Bright Day";
+    lightPanelStyleItem->mixovnik = mixovnik;
+    lightPanelStyleItem->panelStyle = 1;
+    menu->addChild(lightPanelStyleItem);
+
+
+
+    return menu;
 }
 

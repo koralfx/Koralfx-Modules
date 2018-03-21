@@ -22,10 +22,21 @@ struct Quantovnik : Module {
 		NUM_LIGHTS = NOTE_LIGHT + 12
 	};
 
+	enum DynamicViewMode {
+   	ACTIVE_LOW,
+   	ACTIVE_HIGH
+	};
+	int panelStyle = 0;
+    json_t *toJson() override;
+    void fromJson(json_t *rootJ) override;
+
 	Quantovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 	void step() override;
 };
 
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------- MAIN  ----------------------------------------------
+//------------------------------------------------------------------------------------------------------
 
 void Quantovnik::step() {
 	float octave = params[OCTAVE_PARAM].value;
@@ -52,22 +63,93 @@ void Quantovnik::step() {
 }
 
 
+json_t *Quantovnik::toJson() {
+    json_t *rootJ = json_object();
+    json_object_set_new(rootJ, "panelStyle", json_integer(panelStyle));
+
+    return rootJ;
+}
+
+void Quantovnik::fromJson(json_t *rootJ) {
+    json_t *j_panelStyle = json_object_get(rootJ, "panelStyle");
+    panelStyle = json_integer_value(j_panelStyle);
+}
+
+
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------------- GUI  ----------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+//Panel Border and Dynamic panel code is adapted from The Dexter by Dale Johnson
+//https://github.com/ValleyAudio
+
+struct PanelBorder : TransparentWidget {
+	void draw(NVGcontext *vg) override {
+		NVGcolor borderColor = nvgRGBAf(0.5, 0.5, 0.5, 0.5);
+		nvgBeginPath(vg);
+		nvgRect(vg, 0.5, 0.5, box.size.x - 1.0, box.size.y - 1.0);
+		nvgStrokeColor(vg, borderColor);
+		nvgStrokeWidth(vg, 1.0);
+		nvgStroke(vg);
+	}
+};
+
+struct DynamicPanelQuantovnik : FramebufferWidget {
+    int* mode;
+    int oldMode;
+    std::vector<std::shared_ptr<SVG>> panels;
+    SVGWidget* panel;
+
+    DynamicPanelQuantovnik() {
+        mode = nullptr;
+        oldMode = -1;
+        panel = new SVGWidget();
+        addChild(panel);
+        addPanel(SVG::load(assetPlugin(plugin, "res/Quantovnik-Dark.svg")));
+        addPanel(SVG::load(assetPlugin(plugin, "res/Quantovnik-Light.svg")));
+        PanelBorder *pb = new PanelBorder();
+        pb->box.size = box.size;
+        addChild(pb);
+    }
+
+    void addPanel(std::shared_ptr<SVG> svg) {
+        panels.push_back(svg);
+        if(!panel->svg) {
+            panel->setSVG(svg);
+            box.size = panel->box.size.div(RACK_GRID_SIZE).round().mult(RACK_GRID_SIZE);
+        }
+    }
+
+    void step() override {
+        if (nearf(gPixelRatio, 1.f)) {
+            oversample = 2.f;
+        }
+        if(mode != nullptr && *mode != oldMode) {
+            panel->setSVG(panels[*mode]);
+            oldMode = *mode;
+            dirty = true;
+        }
+    }
+};
+
+
 QuantovnikWidget::QuantovnikWidget() {
 	Quantovnik *module = new Quantovnik();
 	setModule(module);
 	box.size = Vec(6 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/Quantovnik.svg")));
-		addChild(panel);
+		DynamicPanelQuantovnik *panel = new DynamicPanelQuantovnik();
+        panel->box.size = box.size;
+        panel->mode = &module->panelStyle;
+        addChild(panel);
 	}
 	//Standard screws
-	addChild(createScrew<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	//addChild(createScrew<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
+	//addChild(createScrew<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	//addChild(createScrew<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	//addChild(createScrew<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 	//Knobs
 	addParam(createParam<RoundBlackKnob>(Vec(26, 45),	module, Quantovnik::OCTAVE_PARAM,	-4.5, 4.5, 0.0));
@@ -98,3 +180,51 @@ QuantovnikWidget::QuantovnikWidget() {
 	}
 
 }
+
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------- Context Menu --------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+//Context menu code is adapted from The Dexter by Dale Johnson
+//https://github.com/ValleyAudio
+
+struct QuantovnikPanelStyleItem : MenuItem {
+   Quantovnik* quantovnik;
+    int panelStyle;
+    void onAction(EventAction &e) override {
+       quantovnik->panelStyle = panelStyle;
+    }
+    void step() override {
+        rightText = (quantovnik->panelStyle == panelStyle) ? "✔" : "";
+    }
+};
+
+Menu* QuantovnikWidget::createContextMenu() {
+    Menu* menu = ModuleWidget::createContextMenu();
+    Quantovnik* quantovnik = dynamic_cast<Quantovnik*>(module);
+    assert(quantovnik);
+
+    // Panel Style
+    MenuLabel *panelStyleSpacerLabel = new MenuLabel();
+    menu->addChild(panelStyleSpacerLabel);
+    MenuLabel *panelStyleLabel = new MenuLabel();
+    panelStyleLabel->text = "Frame of mind";
+    menu->addChild(panelStyleLabel);
+
+    QuantovnikPanelStyleItem *darkPanelStyleItem = new QuantovnikPanelStyleItem();
+    darkPanelStyleItem->text = "Dark Calm Night";
+    darkPanelStyleItem->quantovnik = quantovnik;
+    darkPanelStyleItem->panelStyle = 0;
+    menu->addChild(darkPanelStyleItem);
+
+    QuantovnikPanelStyleItem *lightPanelStyleItem = new QuantovnikPanelStyleItem();
+    lightPanelStyleItem->text = "Happy Bright Day";
+    lightPanelStyleItem->quantovnik = quantovnik;
+    lightPanelStyleItem->panelStyle = 1;
+    menu->addChild(lightPanelStyleItem);
+
+
+
+    return menu;
+}
+

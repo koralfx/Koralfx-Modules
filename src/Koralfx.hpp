@@ -1,6 +1,5 @@
 #include "rack.hpp"
 
-
 using namespace rack;
 
 
@@ -12,16 +11,19 @@ extern Plugin *plugin;
 
 struct QuantovnikWidget : ModuleWidget {
 	QuantovnikWidget();
+	Menu* createContextMenu() override;
 };
 
 struct MixovnikWidget : ModuleWidget {
 	MixovnikWidget();
+	Menu* createContextMenu() override;
 };
 
 
 //////////////////////////////////////
 //MODULE COMPONENTS
 /////////////////////////////////////
+
 struct Koralfx_SliderPot : SVGSlider {
 	Koralfx_SliderPot() {
 		Vec margin = Vec(4, 4);
