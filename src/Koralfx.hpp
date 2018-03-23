@@ -19,6 +19,10 @@ struct MixovnikWidget : ModuleWidget {
 	Menu* createContextMenu() override;
 };
 
+struct BeatovnikWidget : ModuleWidget {
+	BeatovnikWidget();
+	Menu* createContextMenu() override;
+};
 
 //////////////////////////////////////
 //MODULE COMPONENTS
