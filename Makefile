@@ -44,4 +44,6 @@ dist: all
 	cp *.png dist/$(SLUG)/
 	mkdir -p dist/$(SLUG)/res/
 	cp -R res/*.svg dist/$(SLUG)/res/
+	cp -R res/*.txt dist/$(SLUG)/res/
+	cp -R res/*.ttf dist/$(SLUG)/res/
 	cd dist && zip -5 -r $(SLUG)-$(VERSION)-$(ARCH).zip $(SLUG)
