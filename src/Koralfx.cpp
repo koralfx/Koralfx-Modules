@@ -13,7 +13,7 @@ void init(rack::Plugin *p) {
 	//p->slug = TOSTRING(SLUG);
 	//p->version = TOSTRING(VERSION);
 	p->slug = "KoralfxVCV";
-	p->version = "0.5.9a";	
+	p->version = "0.5.9b";	
 	p->website = "https://github.com/koralfx/KoralfxVCV";
 	p->manual = "https://github.com/koralfx/KoralfxVCV/blob/master/README.md";
 
