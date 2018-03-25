@@ -65,7 +65,7 @@ struct Beatovnik : Module {
 
 	int tempo = 0;
 	SchmittTrigger clockTrigger;
-	PulseGenerator PulseGenerator;
+	PulseGenerator LightPulseGenerator;
 
 	Beatovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 	void step() override;
@@ -87,7 +87,7 @@ if (inputs[CLOCK_INPUT].active) {
 	if ((clockTrigger.process(inputs[CLOCK_INPUT].value)) && !inMemory) {
 		stepper = 0;
 		beatCount ++;
-		PulseGenerator.trigger(0.1);
+		LightPulseGenerator.trigger(0.1);
 		lights[CLOCK_LIGHT].value = 1;
 		inMemory = true;
 
@@ -313,7 +313,7 @@ if (inputs[CLOCK_INPUT].active) {
 
 
 	} //end of input active routine
-	bool pulse = PulseGenerator.process(1.0 / engineGetSampleRate());
+	bool pulse = LightPulseGenerator.process(1.0 / engineGetSampleRate());
 	if (pulse == 0) lights[CLOCK_LIGHT].value = 0;
 
 }
