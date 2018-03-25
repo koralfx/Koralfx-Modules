@@ -1,16 +1,18 @@
 #include "Koralfx.hpp"
+//#include "DynamicPanelWidget.cpp"
+
 
 struct Quantovnik : Module {
 	enum ParamIds {
 		OCTAVE_PARAM,
-		COURSE_PARAM,
+		COARSE_PARAM,
 		CV_IN_PARAM,
 		CV_OUT_PARAM,
 		NUM_PARAMS
 	};
 	enum InputIds {
 		CV_PITCH_INPUT,
-		CV_COURSE_INPUT,
+		CV_COARSE_INPUT,
 		NUM_INPUTS
 	};
 	enum OutputIds {
@@ -19,7 +21,8 @@ struct Quantovnik : Module {
 	};
 	enum LightIds {
 		NOTE_LIGHT,
-		NUM_LIGHTS = NOTE_LIGHT + 12
+		OCTAVE_LIGHT = NOTE_LIGHT + 12,
+		NUM_LIGHTS = OCTAVE_LIGHT + 7
 	};
 
 	enum DynamicViewMode {
@@ -40,7 +43,7 @@ struct Quantovnik : Module {
 
 void Quantovnik::step() {
 	float octave = params[OCTAVE_PARAM].value;
-	float cv = inputs[CV_PITCH_INPUT].value + inputs[CV_COURSE_INPUT].value + params[COURSE_PARAM].value;
+	float cv = inputs[CV_PITCH_INPUT].value + inputs[CV_COARSE_INPUT].value + params[COARSE_PARAM].value;
 
 	//Convert to Unipolar
 	if (params[CV_IN_PARAM].value == 0) cv += 5;
@@ -49,15 +52,21 @@ void Quantovnik::step() {
 	int noteKey = int(note) % 12;
 
 	cv = round(octave) + (note / 12);
-
+	int octaveNumber = floor(cv);
 	//Convert to Bipolar
 	if (params[CV_OUT_PARAM].value == 0) cv -= 5;
 
 	outputs[CV_PITCH_OUTPUT].value = cv;
+	
 
-	//Light the right light
+	//Light the right note light
 	for (int i = 0; i < 12; i++) {
 		lights[NOTE_LIGHT + i].value = (noteKey ==  i) ? 1.0 : 0.0;
+	}
+
+	//Light the right octave light
+	for (int i = 0; i < 7; i++) {
+		lights[OCTAVE_LIGHT + i].value = (octaveNumber ==  i+2) ? 1.0 : 0.0;
 	}
 
 }
@@ -153,7 +162,7 @@ QuantovnikWidget::QuantovnikWidget() {
 
 	//Knobs
 	addParam(createParam<RoundBlackKnob>(Vec(26, 45),	module, Quantovnik::OCTAVE_PARAM,	-4.5, 4.5, 0.0));
-	addParam(createParam<RoundBlackKnob>(Vec(47, 113),	module, Quantovnik::COURSE_PARAM,	-1, 1, 0.0));
+	addParam(createParam<RoundBlackKnob>(Vec(45, 113),	module, Quantovnik::COARSE_PARAM,	-1, 1, 0.0));
 
 	//Switches
 	addParam(createParam<Koralfx_Switch_Red>(Vec(18, 253),	module, Quantovnik::CV_IN_PARAM,	0.0, 1.0, 1.0));
@@ -161,23 +170,29 @@ QuantovnikWidget::QuantovnikWidget() {
 
 	//Inputs
 	addInput(createInput<PJ301MPort>	(Vec(13, 298),	module, Quantovnik::CV_PITCH_INPUT));
-	addInput(createInput<PJ301MPort>	(Vec(10, 121),	module, Quantovnik::CV_COURSE_INPUT));
+	addInput(createInput<PJ301MPort>	(Vec(10, 121),	module, Quantovnik::CV_COARSE_INPUT));
 
 	//Outputs
 	addOutput(createOutput<PJ301MPort>(Vec(52, 298), module, Quantovnik::CV_PITCH_OUTPUT));
 
 	//Note lights - set base position
 	float xPos		=   9;
-	float yPos1		= 204;
-	float yPos2		= 187;
+	float yPos1		= 192;
+	float yPos2		= 175;
 	float xDelta	=  11;
 	
+
 	float lightPos [12]	= {0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0};
 	float rowPos [12]	= {yPos1, yPos2, yPos1, yPos2, yPos1, yPos1, yPos2, yPos1, yPos2, yPos1, yPos2, yPos1};
 
 	for (int i = 0; i < 12; i++) {
 		addChild(createLight<SmallLight<RedLight>>(Vec(xPos + lightPos[i] * xDelta, rowPos[i]), module, Quantovnik::NOTE_LIGHT +  i));
 	}
+
+	for (int i = 0; i < 7; i++) {
+		addChild(createLight<SmallLight<BlueLight>>(Vec(xPos + i * xDelta, 211), module, Quantovnik::OCTAVE_LIGHT + i));
+	}
+
 
 }
 

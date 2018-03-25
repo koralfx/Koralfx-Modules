@@ -1,10 +1,9 @@
 #include "Koralfx.hpp"
-//#include "Mixovnik.hpp"
 
 #define PI_4 0.78539816339
 #define SQRT2_2 0.70710678118
 
-
+	
 struct Mixovnik : Module {
 	enum ParamIds {
 		AUX1_VOLUME,
