@@ -13,14 +13,14 @@ void init(rack::Plugin *p) {
 	//p->slug = TOSTRING(SLUG);
 	//p->version = TOSTRING(VERSION);
 	p->slug = "KoralfxVCV";
-	p->version = "0.5.9b";	
+	p->version = "0.5.9c";	
 	p->website = "https://github.com/koralfx/KoralfxVCV";
 	p->manual = "https://github.com/koralfx/KoralfxVCV/blob/master/README.md";
 
 	// For each module, specify the ModuleWidget subclass, manufacturer slug (for saving in patches), manufacturer human-readable name, module slug, and module name
-	p->addModel(createModel<QuantovnikWidget>("KoralfxVCV", "Quantovnik", "Quantovnik", UTILITY_TAG));
+	p->addModel(createModel<QuantovnikWidget>("KoralfxVCV", "Quantovnik", "Quantovnik", EFFECT_TAG, UTILITY_TAG));
 	p->addModel(createModel<MixovnikWidget>("KoralfxVCV", "Mixovnik", "Mixovnik", MIXER_TAG));
-	p->addModel(createModel<BeatovnikWidget>("KoralfxVCV", "Beatovnik", "Beatovnik", UTILITY_TAG));
+	p->addModel(createModel<BeatovnikWidget>("KoralfxVCV", "Beatovnik", "Beatovnik", CLOCK_TAG));
 
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.

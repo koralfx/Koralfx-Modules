@@ -48,7 +48,7 @@ void Quantovnik::step() {
 	//Convert to Unipolar
 	if (params[CV_IN_PARAM].value == 0) cv += 5;
 
-	float note = floor(cv  * 12);
+	float note = round(cv  * 12);
 	int noteKey = int(note) % 12;
 
 	cv = round(octave) + (note / 12);
