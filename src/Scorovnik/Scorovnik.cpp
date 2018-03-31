@@ -1029,4 +1029,4 @@ void ScorovnikWidget::appendContextMenu(Menu *menu) {
 ///////////////////////////////////////////////////////////////////////////////
 
 Model *modelScorovnik = Model::create<Scorovnik, ScorovnikWidget>("KoralfxVCV", "Scorovnik", "Scorovnik",
-	EFFECT_TAG, UTILITY_TAG);
+	SEQUENCER_TAG);
