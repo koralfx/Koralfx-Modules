@@ -350,4 +350,5 @@ void BeatovnikWidget::appendContextMenu(Menu *menu) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model *modelBeatovnik = Model::create<Beatovnik, BeatovnikWidget>("KoralfxVCV", "Beatovnik", "Beatovnik", CLOCK_TAG);
+Model *modelBeatovnik = Model::create<Beatovnik, BeatovnikWidget>("KoralfxVCV", "Beatovnik", "Beatovnik",
+	CLOCK_TAG, CLOCK_MODULATOR_TAG);

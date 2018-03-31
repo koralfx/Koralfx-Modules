@@ -84,4 +84,4 @@ void Plateovnik4Widget::appendContextMenu(Menu *menu) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Model *modelPlateovnik4 = Model::create<Plateovnik4, Plateovnik4Widget>("KoralfxVCV", "Plateovnik4", "Plateovnik 4",
-	UTILITY_TAG);
+	BLANK_TAG);
