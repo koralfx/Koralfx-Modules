@@ -88,7 +88,6 @@ struct Scorovnik : Module {
 	int globalTranspose 	= 0;
 	int globalTransposeOld 	= -1;
 
-
 	int loopLimit 			= 0;
 	int loopLimitOld 		= -1;
 

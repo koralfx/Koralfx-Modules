@@ -18,8 +18,6 @@ void Scorovnik::step() {
 		stepNumber 			= "--";
 		notePitchDisplay 	= "--";
 	}
-
-
 	
 	float deltaTime 		= engineGetSampleTime();
 	bool clockGateOn 		= false;
@@ -101,8 +99,8 @@ void Scorovnik::step() {
 
 	//start triggers
 	if (startTriggerA.process(inputs[START_INPUT + 0].value)) {
-		groupPlay[0] = 1; mode1LoopCounter = loopLimit;
-		mode2LoopCounterA 		= loopLimit;
+		groupPlay[0] = 1;
+		mode1LoopCounter 		= loopLimit;
 		mode2LoopCounterA 		= loopLimit;
 		mode3LoopCounterA 		= loopLimit;
 	}
@@ -120,10 +118,25 @@ void Scorovnik::step() {
 	}
 
 	//stop triggers
-	if (stopTriggerA.process(inputs[STOP_INPUT + 0].value)) groupPlay[0] = 0;
-	if (stopTriggerB.process(inputs[STOP_INPUT + 1].value)) groupPlay[1] = 0;
-	if (stopTriggerC.process(inputs[STOP_INPUT + 2].value)) groupPlay[2] = 0;
-	if (stopTriggerD.process(inputs[STOP_INPUT + 3].value)) groupPlay[3] = 0;
+	if (stopTriggerA.process(inputs[STOP_INPUT + 0].value)) {
+		groupPlay[0] 			= 0;
+		mode1SeqCounter			= 0;
+		mode2SeqCounterA		= 0;
+		mode3SeqCounterA		= 0;
+	}
+	if (stopTriggerB.process(inputs[STOP_INPUT + 1].value)) {
+		groupPlay[1] 			= 0;
+		mode3SeqCounterB		= 0;
+	}
+	if (stopTriggerC.process(inputs[STOP_INPUT + 2].value)) {
+		groupPlay[2] = 0;
+		mode2SeqCounterC		= 0;
+		mode3SeqCounterC		= 0;
+	}
+	if (stopTriggerD.process(inputs[STOP_INPUT + 3].value)) {
+		groupPlay[3] = 0;
+		mode3SeqCounterD		= 0;
+	}
 
 	//reset triggers
 	if (resetTriggerA.process(inputs[RESET_INPUT + 0].value)) {
@@ -155,10 +168,12 @@ void Scorovnik::step() {
 
 		if (globalStopTriger.process(params[SWITCH_STOP_PARAM].value)) {
 			groupPlay[0] 		= 0;
+			mode1SeqCounter		= 0;
 		}
 
 		if (globalResetTriger.process(params[SWITCH_RESET_PARAM].value)) {
 			mode1Seq 			= -1;
+			mode1SeqCounter		= 0;
 		}
 		break;
 		
@@ -172,10 +187,14 @@ void Scorovnik::step() {
 		if (globalStopTriger.process(params[SWITCH_STOP_PARAM].value)) {
 			groupPlay[0] 		= 0;
 			groupPlay[2] 		= 0;
+			mode2SeqCounterA	= 0;
+			mode2SeqCounterC	= 0;
 		}
 		if (globalResetTriger.process(params[SWITCH_RESET_PARAM].value)) {
 			mode2SeqA 			= -1;
 			mode2SeqC 			= 15;
+			mode2SeqCounterA	= 0;
+			mode2SeqCounterC	= 0;
 		}
 		break;
 		
@@ -195,6 +214,10 @@ void Scorovnik::step() {
 			groupPlay[1] 		= 0;
 			groupPlay[2] 		= 0;
 			groupPlay[3] 		= 0;
+			mode3SeqCounterA	= 0;
+			mode3SeqCounterB	= 0;
+			mode3SeqCounterC	= 0;
+			mode3SeqCounterD	= 0;
 		}
 
 		if (globalResetTriger.process(params[SWITCH_RESET_PARAM].value)) {
@@ -202,6 +225,10 @@ void Scorovnik::step() {
 			mode3SeqB 			= 7;
 			mode3SeqC 			= 15;
 			mode3SeqD 			= 23;
+			mode3SeqCounterA	= 0;
+			mode3SeqCounterB	= 0;
+			mode3SeqCounterC	= 0;
+			mode3SeqCounterD	= 0;
 		}
 		break;
 	}
@@ -265,6 +292,7 @@ void Scorovnik::step() {
 		///////////////////////////////////////////////////////////////////////////////
 
 		switch(mode) {
+			
 			case 0:
 			if (groupPlay [0] == 1) {
 				if (mode1SeqCounter > 0)  			mode1SeqCounter -= 1;
@@ -349,7 +377,6 @@ void Scorovnik::step() {
 			case 0:
 			if (groupPlay[0] == 1) {
 				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode1Seq].value)*(10/122.0) ;
-
 				outputs[PITCH_OUTPUT + 0].value = notePitch + globalTranspose * (10/122.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode1Seq].value ;
