@@ -72,7 +72,7 @@ struct Quantovnik : Module {
 
 struct QuantovnikWidget : ModuleWidget {
     QuantovnikWidget(Quantovnik *module);
-    void appendContextMenu(Menu *menu);
+    void appendContextMenu(Menu *menu) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

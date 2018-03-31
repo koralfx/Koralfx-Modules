@@ -100,7 +100,7 @@ struct Mixovnik : Module {
 
 struct MixovnikWidget : ModuleWidget {
     MixovnikWidget(Mixovnik *module);
-    void appendContextMenu(Menu *menu);
+    void appendContextMenu(Menu *menu) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

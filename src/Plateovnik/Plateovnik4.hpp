@@ -63,7 +63,7 @@ struct Plateovnik4 : Module {
 
 struct Plateovnik4Widget : ModuleWidget {
     Plateovnik4Widget(Plateovnik4 *module);
-    void appendContextMenu(Menu *menu);
+    void appendContextMenu(Menu *menu) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

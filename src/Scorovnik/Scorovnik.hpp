@@ -223,7 +223,7 @@ struct Scorovnik : Module {
 
 struct ScorovnikWidget : ModuleWidget {
     ScorovnikWidget(Scorovnik *module);
-    void appendContextMenu(Menu *menu);
+    void appendContextMenu(Menu *menu) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

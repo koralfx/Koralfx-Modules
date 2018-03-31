@@ -110,7 +110,7 @@ struct Beatovnik : Module {
 
 struct BeatovnikWidget : ModuleWidget {
     BeatovnikWidget(Beatovnik *module);
-    void appendContextMenu(Menu *menu);
+    void appendContextMenu(Menu *menu) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
