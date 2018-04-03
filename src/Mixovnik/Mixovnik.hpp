@@ -22,11 +22,11 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
 THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KORALFXVCV_MIXOVNIK_HPP
-#define KORALFXVCV_MIXOVNIK_HPP
+#ifndef KORALFX_MIXOVNIK_HPP
+#define KORALFX_MIXOVNIK_HPP
 
-#include "../KoralfxVCV.hpp"
-#include "../KoralfxVCVComponents.hpp"
+#include "../Koralfx-Modules.hpp"
+#include "../KoralfxComponents.hpp"
 
 #define PI_4 0.78539816339
 #define SQRT2_2 0.70710678118

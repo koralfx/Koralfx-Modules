@@ -1,7 +1,7 @@
-#ifndef KORALFXVCV_COMPONENTS_HPP
-#define KORALFXVCV_COMPONENTS_HPP
+#ifndef KORALFX_COMPONENTS_HPP
+#define KORALFX_COMPONENTS_HPP
 
-#include "KoralfxVCVWidgets.hpp"
+#include "KoralfxWidgets.hpp"
 
 #include "app.hpp"
 
@@ -165,7 +165,7 @@ struct Koralfx_LEDButton : SVGSwitch, MomentarySwitch {
 
 struct Seg3DisplayWidget : TransparentWidget {
 	std::string *value;
-	NVGcolor colorDisplay;
+	NVGcolor *colorDisplay;
 	std::shared_ptr<Font> font;
 
 	Seg3DisplayWidget() {
@@ -181,14 +181,13 @@ struct Seg3DisplayWidget : TransparentWidget {
 		std::stringstream to_display;
 		to_display << std::setw(3) << *value;
 
-
 		Vec textPos = Vec(4.0f, 17.0f); 
 
-		NVGcolor textColor = colorDisplay;
+		NVGcolor textColor = *colorDisplay;
 		nvgFillColor(vg, nvgTransRGBA(textColor, 30));
 		nvgText(vg, textPos.x, textPos.y, "888", NULL);
 
-		textColor = colorDisplay;
+		textColor = *colorDisplay;
 		nvgFillColor(vg, textColor);
 		nvgText(vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
 	}
@@ -198,7 +197,7 @@ struct Seg3DisplayWidget : TransparentWidget {
 
 struct Dot3DisplayWidget : TransparentWidget {
 	std::string *value;
-	NVGcolor colorDisplay;
+	NVGcolor *colorDisplay;
 	std::shared_ptr<Font> font;
 
 	Dot3DisplayWidget() {
@@ -216,11 +215,11 @@ struct Dot3DisplayWidget : TransparentWidget {
 
 		Vec textPos = Vec(4.0f, 17.0f); 
 
-		NVGcolor textColor = colorDisplay;
+		NVGcolor textColor = *colorDisplay;
 		nvgFillColor(vg, nvgTransRGBA(textColor, 76));
 		nvgText(vg, textPos.x, textPos.y, "॓॓॓", NULL);
 
-		textColor = colorDisplay;
+		textColor = *colorDisplay;
 		nvgFillColor(vg, textColor);
 		nvgText(vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
 	}
@@ -230,7 +229,7 @@ struct Dot3DisplayWidget : TransparentWidget {
 
 struct Dot2DisplayWidget : TransparentWidget {
 	std::string *value;
-	NVGcolor colorDisplay;
+	NVGcolor *colorDisplay;
 	std::shared_ptr<Font> font;
 
 	Dot2DisplayWidget() {
@@ -248,11 +247,11 @@ struct Dot2DisplayWidget : TransparentWidget {
 
 		Vec textPos = Vec(4.0f, 17.0f); 
 
-		NVGcolor textColor = colorDisplay;
+		NVGcolor textColor = *colorDisplay;
 		nvgFillColor(vg, nvgTransRGBA(textColor, 76));
 		nvgText(vg, textPos.x, textPos.y, "॓॓", NULL);
 
-		textColor = colorDisplay;
+		textColor = *colorDisplay;
 		nvgFillColor(vg, textColor);
 		nvgText(vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
 	}

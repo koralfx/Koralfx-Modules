@@ -13,7 +13,7 @@ void Mixovnik::step() {
 	float SUM_AUX2_R = 0.0;
 
 	float cvVolumeRatio[16];
-
+	
 
 	//Solo test
 	bool soloTest = false;
@@ -334,4 +334,4 @@ void MixovnikWidget::appendContextMenu(Menu *menu) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model *modelMixovnik = Model::create<Mixovnik, MixovnikWidget>("KoralfxVCV", "Mixovnik", "Mixovnik", MIXER_TAG);
+Model *modelMixovnik = Model::create<Mixovnik, MixovnikWidget>("Koralfx-Modules", "Mixovnik", "Mixovnik", MIXER_TAG);

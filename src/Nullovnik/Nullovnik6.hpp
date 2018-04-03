@@ -1,5 +1,5 @@
 /*
-Plateovnik6.hpp
+Nullovnik6.hpp
 Author: Tomek Sosnowski
 Contact: koralfx@gmail.com
 Date: 1/4/2018
@@ -22,13 +22,13 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
 THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KORALFXVCV_PLATEOVNIK6_HPP
-#define KORALFXVCV_PLATEOVNIK6_HPP
+#ifndef KORALFX_NULLOVNIK6_HPP
+#define KORALFX_NULLOVNIK6_HPP
 
-#include "../KoralfxVCV.hpp"
-#include "../KoralfxVCVComponents.hpp"
+#include "../Koralfx-Modules.hpp"
+#include "../KoralfxComponents.hpp"
 
-struct Plateovnik6 : Module {
+struct Nullovnik6 : Module {
 	enum ParamIds {
 		NUM_PARAMS
 	};
@@ -50,8 +50,8 @@ struct Plateovnik6 : Module {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-    Plateovnik6();
-    //~Plateovnik();
+    Nullovnik6();
+    //~Nullovnik();
     void step() override;
     //void onSampleRateChange() override;
     //void reset() override;
@@ -61,8 +61,8 @@ struct Plateovnik6 : Module {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct Plateovnik6Widget : ModuleWidget {
-    Plateovnik6Widget(Plateovnik6 *module);
+struct Nullovnik6Widget : ModuleWidget {
+    Nullovnik6Widget(Nullovnik6 *module);
     void appendContextMenu(Menu *menu) override;
 };
 

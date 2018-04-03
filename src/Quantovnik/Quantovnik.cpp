@@ -143,5 +143,5 @@ void QuantovnikWidget::appendContextMenu(Menu *menu) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model *modelQuantovnik = Model::create<Quantovnik, QuantovnikWidget>("KoralfxVCV", "Quantovnik", "Quantovnik",
+Model *modelQuantovnik = Model::create<Quantovnik, QuantovnikWidget>("Koralfx-Modules", "Quantovnik", "Quantovnik",
 	EFFECT_TAG);

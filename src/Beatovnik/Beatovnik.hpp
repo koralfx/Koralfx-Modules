@@ -22,11 +22,11 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
 THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KORALFXVCV_BEATOVNIK_HPP
-#define KORALFXVCV_BEATOVNIK_HPP
+#ifndef KORALFX_BEATOVNIK_HPP
+#define KORALFX_BEATOVNIK_HPP
 
-#include "../KoralfxVCV.hpp"
-#include "../KoralfxVCVComponents.hpp"
+#include "../Koralfx-Modules.hpp"
+#include "../KoralfxComponents.hpp"
 
 #include "dsp/digital.hpp"
 #include <string>
@@ -68,6 +68,7 @@ struct Beatovnik : Module {
 ///////////////////////////////////////////////////////////////////////////////
 
     int 	panelStyle 		= 0;
+    NVGcolor colorDisplay 	= nvgRGB(0xff, 0xcc, 0x00);
 
     bool 	inMemory 		= false;
     

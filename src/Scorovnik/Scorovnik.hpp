@@ -22,11 +22,11 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
 THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
-#ifndef KORALFXVCV_SCOROVNIK_HPP
-#define KORALFXVCV_SCOROVNIK_HPP
+#ifndef KORALFX_SCOROVNIK_HPP
+#define KORALFX_SCOROVNIK_HPP
 
-#include "../KoralfxVCV.hpp"
-#include "../KoralfxVCVComponents.hpp"
+#include "../Koralfx-Modules.hpp"
+#include "../KoralfxComponents.hpp"
 
 #include "dsp/digital.hpp"
 #include <string>
@@ -80,6 +80,7 @@ struct Scorovnik : Module {
 ///////////////////////////////////////////////////////////////////////////////
 
     int panelStyle 			= 0;
+    NVGcolor colorDisplay 	= nvgRGB(0x56, 0xdc, 0xff);
 
 
     int tempoBPM 			= 0;

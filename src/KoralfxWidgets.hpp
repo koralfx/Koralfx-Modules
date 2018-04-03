@@ -1,7 +1,7 @@
-#ifndef KORALFXVCV_WIDGETS_HPP
-#define KORALFXVCV_WIDGETS_HPP
+#ifndef KORALFX_WIDGETS_HPP
+#define KORALFX_WIDGETS_HPP
 
-#include "KoralfxVCV.hpp"
+#include "Koralfx-Modules.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Dynamic Panel

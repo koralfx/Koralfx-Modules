@@ -239,6 +239,7 @@ void Scorovnik::step() {
 
 	if (inputs[EXT_CLK_INPUT].active) {
 		externalTime 		+= deltaTime;
+		colorDisplay 		= nvgRGB(0x00, 0xdc, 0x00);
 		//external clock
 		if (extClockTrigger.process(inputs[EXT_CLK_INPUT].value)) {
 			clockGateOn 	= true;
@@ -258,7 +259,7 @@ void Scorovnik::step() {
 	} else {
 		//internal clock
 		tempoBPM = round(params[TEMPO_PARAM].value);
-
+		colorDisplay 	= nvgRGB(0x56, 0xdc, 0xff);
 		//display tempo only if change
 		if (tempoBPM != tempoBPMOld) {
 			tempo 			= std::to_string(tempoBPM);
@@ -851,7 +852,7 @@ ScorovnikWidget::ScorovnikWidget(Scorovnik *module) : ModuleWidget(module){
 	displayTempo->box.pos = Vec(50,20);
 	displayTempo->box.size = Vec(45, 20);
 	displayTempo->value = &module->tempo;
-	displayTempo->colorDisplay = nvgRGB(0x56, 0xdc, 0xff);
+	displayTempo->colorDisplay = &module->colorDisplay;
 	addChild(displayTempo);
 
 	//Transpose
@@ -859,7 +860,7 @@ ScorovnikWidget::ScorovnikWidget(Scorovnik *module) : ModuleWidget(module){
 	displayTranspose->box.pos = Vec(103,20);
 	displayTranspose->box.size = Vec(45, 20);
 	displayTranspose->value = &module->transpose;
-	displayTranspose->colorDisplay = nvgRGB(0x56, 0xdc, 0xff);
+	displayTranspose->colorDisplay = &module->colorDisplay;
 	addChild(displayTranspose);
 
 	//Loop numbers
@@ -867,7 +868,7 @@ ScorovnikWidget::ScorovnikWidget(Scorovnik *module) : ModuleWidget(module){
 	displayLoop->box.pos = Vec(155,20);
 	displayLoop->box.size = Vec(45, 20);
 	displayLoop->value = &module->loopNumber;
-	displayLoop->colorDisplay = nvgRGB(0x56, 0xdc, 0xff);
+	displayLoop->colorDisplay = &module->colorDisplay;
 	addChild(displayLoop);
 
 
@@ -877,7 +878,7 @@ ScorovnikWidget::ScorovnikWidget(Scorovnik *module) : ModuleWidget(module){
 	displayStep->box.pos = Vec(908,69);
 	displayStep->box.size = Vec(45, 20);
 	displayStep->value = &module->stepNumber;
-	displayStep->colorDisplay = nvgRGB(0x56, 0xdc, 0xff);
+	displayStep->colorDisplay = &module->colorDisplay;
 	addChild(displayStep);
 
 	//Note pitch (helper)
@@ -885,7 +886,7 @@ ScorovnikWidget::ScorovnikWidget(Scorovnik *module) : ModuleWidget(module){
 	displayNotePitch->box.pos = Vec(938,69);
 	displayNotePitch->box.size = Vec(45, 20);
 	displayNotePitch->value = &module->notePitchDisplay;
-	displayNotePitch->colorDisplay = nvgRGB(0x56, 0xdc, 0xff);
+	displayNotePitch->colorDisplay = &module->colorDisplay;
 	addChild(displayNotePitch);
 
 
@@ -1055,5 +1056,5 @@ void ScorovnikWidget::appendContextMenu(Menu *menu) {
 //Final
 ///////////////////////////////////////////////////////////////////////////////
 
-Model *modelScorovnik = Model::create<Scorovnik, ScorovnikWidget>("KoralfxVCV", "Scorovnik", "Scorovnik",
+Model *modelScorovnik = Model::create<Scorovnik, ScorovnikWidget>("Koralfx-Modules", "Scorovnik", "Scorovnik",
 	SEQUENCER_TAG);

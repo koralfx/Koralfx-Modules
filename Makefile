@@ -1,8 +1,8 @@
 # Must follow the format in the Naming section of https://vcvrack.com/manual/PluginDevelopmentTutorial.html
-SLUG = KoralfxVCV
+SLUG = Koralfx-Modules
 
 # Must follow the format in the Versioning section of https://vcvrack.com/manual/PluginDevelopmentTutorial.html
-VERSION = 0.6.1a
+VERSION = 0.6.2
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=

@@ -1,4 +1,4 @@
-#include "KoralfxVCVWidgets.hpp"
+#include "KoralfxWidgets.hpp"
 
 void PanelBorderWidget::draw(NVGcontext *vg) {
     NVGcolor borderColor = nvgRGBAf(0.3, 0.3, 0.3, 0.3);

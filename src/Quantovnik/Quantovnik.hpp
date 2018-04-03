@@ -22,11 +22,11 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
 THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KORALFXVCV_QUANTOVNIK_HPP
-#define KORALFXVCV_QUANTOVNIK_HPP
+#ifndef KORALFX_QUANTOVNIK_HPP
+#define KORALFX_QUANTOVNIK_HPP
 
-#include "../KoralfxVCV.hpp"
-#include "../KoralfxVCVComponents.hpp"
+#include "../Koralfx-Modules.hpp"
+#include "../KoralfxComponents.hpp"
 
 struct Quantovnik : Module {
 	enum ParamIds {

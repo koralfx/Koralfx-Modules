@@ -12,7 +12,6 @@ void Beatovnik::step() {
 	float deltaTime = engineGetSampleTime();
 	if (inputs[CLOCK_INPUT].active) {
 		float clockInput = inputs[CLOCK_INPUT].value;
-
 		//A rising slope
 		if ((clockTrigger.process(inputs[CLOCK_INPUT].value)) && !inMemory) {
 			beatCount ++;
@@ -73,6 +72,7 @@ void Beatovnik::step() {
 				beatLock = true;
 				beatOld = beatTime;
 				tempo = std::to_string((int)round(60/beatOld));
+				colorDisplay 	= nvgRGB(0xff, 0xcc, 0x00);
 			}
 
 			//BPM lost
@@ -86,6 +86,7 @@ void Beatovnik::step() {
 					for (int i = 0; i < 13; i++) {
 						lights[CLOCK_LIGHT + i].value = 0;
 						tempo = "---" ;
+						colorDisplay 	= nvgRGB(0xff, 0x00, 0x00);
 					}
 				}
 			}
@@ -205,6 +206,7 @@ void Beatovnik::step() {
 			stepper = 0;
 			stepperInc = false;
 			tempo = "---" ;
+			colorDisplay 	= nvgRGB(0xff, 0x00, 0x00);
 			for (int i = 0; i < 13; i++) {
 				lights[CLOCK_LIGHT + i].value = 0;
 			}
@@ -214,6 +216,7 @@ void Beatovnik::step() {
 			beatLock = false;
 			beatCount = 0;
 			tempo = "OFF" ;
+			colorDisplay 	= nvgRGB(0x00, 0xcc, 0xff);
 			for (int i = 0; i < 13; i++) {
 				lights[CLOCK_LIGHT + i].value = 0;
 		}
@@ -269,7 +272,7 @@ BeatovnikWidget::BeatovnikWidget(Beatovnik *module) : ModuleWidget(module){
 	display->box.pos = Vec(6,290);
 	display->box.size = Vec(45, 20);
 	display->value = &module->tempo;
-	display->colorDisplay = nvgRGB(0xff, 0xcc, 0x00);
+	display->colorDisplay = &module->colorDisplay;
 	addChild(display);
 
 	//Knobs
@@ -350,5 +353,5 @@ void BeatovnikWidget::appendContextMenu(Menu *menu) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model *modelBeatovnik = Model::create<Beatovnik, BeatovnikWidget>("KoralfxVCV", "Beatovnik", "Beatovnik",
+Model *modelBeatovnik = Model::create<Beatovnik, BeatovnikWidget>("Koralfx-Modules", "Beatovnik", "Beatovnik",
 	CLOCK_TAG, CLOCK_MODULATOR_TAG);

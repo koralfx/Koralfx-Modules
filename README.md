@@ -2,20 +2,20 @@
 # Koralfx modules for VCV Rack
 
 
-KoralfxVCV is a collection of VCV modules by Tomek Sosnowski for VCV Rack.
+Koralfx is a collection of modules by Tomek Sosnowski for VCV Rack.
 
 KoralFX Logo Copyright (c) 2018 Tomasz Sosnowski.
 All rights reserved.
 
 ### Releases
 
-Found on the [Release Page](https://github.com/koralfx/KoralfxVCV/releases)
+Found on the [Release Page](https://github.com/koralfx/Koralfx-Modules/releases)
 
 You can support the development by making a donation, it will be appreciated!
 [DONATE](https://www.paypal.me/koralfx/)
 
 
-![](https://github.com/koralfx/KoralfxVCV/blob/master/KoralfxVCV_Plugins.png)
+![](https://github.com/koralfx/KoralfxVCV/blob/master/Koralfx-Modules.png)
 
 
 ## Mixovnik

@@ -12,5 +12,5 @@ extern Model *modelQuantovnik;
 extern Model *modelMixovnik;
 extern Model *modelBeatovnik;
 extern Model *modelScorovnik;
-extern Model *modelPlateovnik4;
-extern Model *modelPlateovnik6;
+extern Model *modelNullovnik4;
+extern Model *modelNullovnik6;

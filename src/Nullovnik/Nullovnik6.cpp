@@ -1,6 +1,6 @@
-#include "Plateovnik4.hpp"
+#include "Nullovnik6.hpp"
 
-Plateovnik4::Plateovnik4() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+Nullovnik6::Nullovnik6() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -8,21 +8,21 @@ Plateovnik4::Plateovnik4() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIG
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void Plateovnik4::step() {
+void Nullovnik6::step() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Store variables
 ///////////////////////////////////////////////////////////////////////////////
 
-json_t *Plateovnik4::toJson() {
+json_t *Nullovnik6::toJson() {
     json_t *rootJ = json_object();
     json_object_set_new(rootJ, "panelStyle", json_integer(panelStyle));
 
     return rootJ;
 }
 
-void Plateovnik4::fromJson(json_t *rootJ) {
+void Nullovnik6::fromJson(json_t *rootJ) {
 	json_t *j_panelStyle = json_object_get(rootJ, "panelStyle");
 	panelStyle = json_integer_value(j_panelStyle);
 }
@@ -33,14 +33,14 @@ void Plateovnik4::fromJson(json_t *rootJ) {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-Plateovnik4Widget::Plateovnik4Widget(Plateovnik4 *module) : ModuleWidget(module){
+Nullovnik6Widget::Nullovnik6Widget(Nullovnik6 *module) : ModuleWidget(module){
 
 	box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
 		DynamicPanelWidget *panel = new DynamicPanelWidget();
-		panel->addPanel(SVG::load(assetPlugin(plugin, "res/Plateovnik4-Dark.svg")));
-		panel->addPanel(SVG::load(assetPlugin(plugin, "res/Plateovnik4-Light.svg")));
+		panel->addPanel(SVG::load(assetPlugin(plugin, "res/Nullovnik6-Dark.svg")));
+		panel->addPanel(SVG::load(assetPlugin(plugin, "res/Nullovnik6-Light.svg")));
 		box.size = panel->box.size;
 		panel->mode = &module->panelStyle;
 		addChild(panel);
@@ -55,8 +55,8 @@ Plateovnik4Widget::Plateovnik4Widget(Plateovnik4 *module) : ModuleWidget(module)
 //Context menu code is adapted from The Dexter by Dale Johnson
 //https://github.com/ValleyAudio
 
-struct Plateovnik4PanelStyleItem : MenuItem {
-    Plateovnik4* module;
+struct Nullovnik6PanelStyleItem : MenuItem {
+    Nullovnik6* module;
     int panelStyle;
     void onAction(EventAction &e) override {
         module->panelStyle = panelStyle;
@@ -67,21 +67,21 @@ struct Plateovnik4PanelStyleItem : MenuItem {
     }
 };
 
-void Plateovnik4Widget::appendContextMenu(Menu *menu) {
-    Plateovnik4 *module = dynamic_cast<Plateovnik4*>(this->module);
+void Nullovnik6Widget::appendContextMenu(Menu *menu) {
+    Nullovnik6 *module = dynamic_cast<Nullovnik6*>(this->module);
     assert(module);
 
     // Panel style
     menu->addChild(construct<MenuLabel>());
     menu->addChild(construct<MenuLabel>(&MenuLabel::text, "Frame of mind"));
-    menu->addChild(construct<Plateovnik4PanelStyleItem>(&MenuItem::text, "Dark Calm Night",
-    	&Plateovnik4PanelStyleItem::module, module, &Plateovnik4PanelStyleItem::panelStyle, 0));
-    menu->addChild(construct<Plateovnik4PanelStyleItem>(&MenuItem::text, "Happy Bright Day",
-    	&Plateovnik4PanelStyleItem::module, module, &Plateovnik4PanelStyleItem::panelStyle, 1));
+    menu->addChild(construct<Nullovnik6PanelStyleItem>(&MenuItem::text, "Dark Calm Night",
+    	&Nullovnik6PanelStyleItem::module, module, &Nullovnik6PanelStyleItem::panelStyle, 0));
+    menu->addChild(construct<Nullovnik6PanelStyleItem>(&MenuItem::text, "Happy Bright Day",
+    	&Nullovnik6PanelStyleItem::module, module, &Nullovnik6PanelStyleItem::panelStyle, 1));
 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model *modelPlateovnik4 = Model::create<Plateovnik4, Plateovnik4Widget>("KoralfxVCV", "Plateovnik4", "Plateovnik 4",
+Model *modelNullovnik6 = Model::create<Nullovnik6, Nullovnik6Widget>("Koralfx-Modules", "Nullovnik6", "Nullovnik 6",
 	BLANK_TAG);
