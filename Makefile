@@ -2,7 +2,7 @@
 SLUG = Koralfx-Modules
 
 # Must follow the format in the Versioning section of https://vcvrack.com/manual/PluginDevelopmentTutorial.html
-VERSION = 0.6.2
+VERSION = 0.6.3
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=
@@ -31,19 +31,3 @@ ifndef VERSION
 	$(error VERSION must be defined when making distributables)
 endif
 	DISTRIBUTABLES += $(wildcard LICENSE* *.pdf README*) res
-	include $(RACK_DIR)/plugin.mk
-
-
-.PHONY: dist
-
-dist: all
-	mkdir -p dist/$(SLUG)
-	cp plugin.* dist/$(SLUG)/
-	cp LICENSE.txt dist/$(SLUG)/
-	cp README.md dist/$(SLUG)/
-	cp *.png dist/$(SLUG)/
-	mkdir -p dist/$(SLUG)/res/
-	cp -R res/*.svg dist/$(SLUG)/res/
-	cp -R res/*.txt dist/$(SLUG)/res/
-	cp -R res/*.ttf dist/$(SLUG)/res/
-	cd dist && zip -5 -r $(SLUG)-$(VERSION)-$(ARCH).zip $(SLUG)
