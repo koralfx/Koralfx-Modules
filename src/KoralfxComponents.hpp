@@ -267,7 +267,7 @@ struct Koralfx_knobRing : TransparentWidget{
 	NVGcolor *colorPointer;
 	Koralfx_knobRing() {}
 	
-	void draw(NVGcontext *vg) {
+	void draw(NVGcontext *vg) override {
 float d = 22.0;
 		nvgBeginPath(vg);
 		nvgCircle(vg, 0,0, d);
