@@ -2,15 +2,16 @@
 
 using namespace rack;
 
-
 extern Plugin *plugin;
 
 ////////////////////
 // module widgets
 ////////////////////
-extern Model *modelQuantovnik;
-extern Model *modelMixovnik;
+
 extern Model *modelBeatovnik;
-extern Model *modelScorovnik;
+extern Model *modelMixovnik;
 extern Model *modelNullovnik4;
 extern Model *modelNullovnik6;
+extern Model *modelPresetovnik;
+extern Model *modelQuantovnik;
+extern Model *modelScorovnik;

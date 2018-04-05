@@ -257,6 +257,62 @@ struct Dot2DisplayWidget : TransparentWidget {
 	}
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// Others
+///////////////////////////////////////////////////////////////////////////////
+
+
+struct Koralfx_knobRing : TransparentWidget{
+	float *pointerKnob;
+	NVGcolor *colorPointer;
+	Koralfx_knobRing() {}
+	
+	void draw(NVGcontext *vg) {
+float d = 22.0;
+		nvgBeginPath(vg);
+		nvgCircle(vg, 0,0, d);
+		//nvgFillColor(vg, nvgRGBA(0x55, 0xaa, 0xff, 0x33)); 
+		nvgFillColor(vg, nvgTransRGBA(*colorPointer, 0x33)); 
+		nvgFill(vg);
+
+		
+		for (int i = 210; i <= 510 ; i += 150) {
+		float gradius = i ;
+		float xx =  d * sin( gradius *0.0174);
+		float yy =  -d * cos( gradius *0.0174);
+			nvgFillColor(vg, nvgRGBA(0x28, 0x2c, 0x33, 0xff));
+			//nvgStrokeColor(vg, nvgRGBA(0x55, 0xaa, 0xff, 0xff));
+			{
+				nvgBeginPath(vg);
+				nvgMoveTo(vg, 0,0);
+				nvgLineTo(vg, xx,yy);
+				nvgClosePath(vg);
+			}
+			nvgStroke(vg);
+		}
+
+
+		float gradius = 210 + *pointerKnob * 360 * 0.8333;
+		float xx =  d * sin( gradius *0.0174);
+		float yy =  -d * cos( gradius *0.0174);
+
+				nvgStrokeWidth(vg, 2.0);
+				nvgLineCap(vg, NVG_ROUND);
+				nvgMiterLimit(vg, 2.0);
+
+			nvgStrokeColor(vg, nvgTransRGBA(*colorPointer, 0xff));
+			{
+				nvgBeginPath(vg);
+				nvgMoveTo(vg, 0,0);
+				nvgLineTo(vg, xx,yy);
+				nvgClosePath(vg);
+			}
+			nvgStroke(vg);
+	}
+};
+
+
 ///////////////////////////////////////
+
 
 #endif

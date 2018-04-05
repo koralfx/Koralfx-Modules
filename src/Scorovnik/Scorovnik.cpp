@@ -902,7 +902,7 @@ ScorovnikWidget::ScorovnikWidget(Scorovnik *module) : ModuleWidget(module){
 
 	for (int i = 0; i < 32; i++) {
 		if(i  % 8 == 0)  stepX += 10;
-		//knobs
+		//Sliders
 		addParam(ParamWidget::create<Koralfx_PitchSlider>					(Vec(leftPos + 18 + stepX + i*20, 63),
 			module, Scorovnik::SLIDER_NOTE_PITCH_PARAM + i,-24, 24, 0));
 
