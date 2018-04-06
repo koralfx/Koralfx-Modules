@@ -75,6 +75,7 @@ void Presetovnik::step() {
 		lights[PRESET_LIGHT + (preset) * 3 + sourcePreset ].value = 1;
 		presetChange = false;
 		presetOld = preset;
+		outputs[CV_PRESET_OUTPUT].value = preset+1;
 		//Restore knob pointers and uni leds from preset memory
 		for (int i = 0; i < 8 ; i += 1) {
 			pointerKnob [i] = presetKnobMemory [preset][i];
@@ -237,13 +238,14 @@ PresetovnikWidget::PresetovnikWidget(Presetovnik *module) : ModuleWidget(module)
 			module, Presetovnik::CV_PARAM_OUTPUT + i));
 	}
 
-	addInput(Port::create<PJ301MPort>	(Vec(13, 47),	Port::INPUT, module, Presetovnik::CV_PRESET_INPUT));
+	addInput(Port::create<PJ301MPort>	(Vec(10, 47),	Port::INPUT, module, Presetovnik::CV_PRESET_INPUT));
+	addOutput(Port::create<PJ301MPort>	(Vec(205, 47),	Port::OUTPUT, module, Presetovnik::CV_PRESET_OUTPUT));
 
 	for (int i = 0; i < 10 ; i += 1) {
-		addParam(ParamWidget::create<Koralfx_LEDButton>(Vec(52 + (i * 18), 56),
+		addParam(ParamWidget::create<Koralfx_LEDButton>(Vec(40 + (i * 16), 56),
 			module, Presetovnik::LED_BUTTON_PRESET_PARAM + i,    0, 1, 0));
 
-		addChild(ModuleLightWidget::create<SmallLight<RedGreenBlueLight>>(Vec(56 + (i * 18), 60),
+		addChild(ModuleLightWidget::create<SmallLight<RedGreenBlueLight>>(Vec(44 + (i * 16), 60),
 			module, Presetovnik::PRESET_LIGHT + (i * 3)));
 	}
 

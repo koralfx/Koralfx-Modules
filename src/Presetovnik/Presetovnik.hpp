@@ -42,6 +42,7 @@ struct Presetovnik : Module {
 		NUM_INPUTS = CV_PARAM_INPUT + 8
 	};
 	enum OutputIds {
+		CV_PRESET_OUTPUT,
 		CV_PARAM_OUTPUT,
 		NUM_OUTPUTS = CV_PARAM_OUTPUT + 8
 	};
