@@ -3,7 +3,11 @@
 #include "../Koralfx-Modules.hpp"
 
 Presetovnik::Presetovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
+	onReset();
+}
 
+
+void Presetovnik::onReset() {
 	//Default values
 	for (int i = 0; i < 10 ; i += 1) {
 		for (int k = 0; k < 8 ; k += 1) {
@@ -11,6 +15,7 @@ Presetovnik::Presetovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIG
 			presetUniMemory[i][k] = true;
 		}
 	}
+	presetChange = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

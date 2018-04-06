@@ -84,6 +84,7 @@ struct Presetovnik : Module {
     Presetovnik();
     //~Presetovnik();
     void step() override;
+    void onReset() override;
     //void onSampleRateChange() override;
     //void reset() override;
     json_t *toJson() override;
