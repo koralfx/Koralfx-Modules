@@ -169,11 +169,13 @@ void Scorovnik::step() {
 		if (globalStopTriger.process(params[SWITCH_STOP_PARAM].value)) {
 			groupPlay[0] 		= 0;
 			mode1SeqCounter		= 0;
+			outputs[GATE_OUTPUT + 0].value = 0.0f;
 		}
 
 		if (globalResetTriger.process(params[SWITCH_RESET_PARAM].value)) {
 			mode1Seq 			= -1;
 			mode1SeqCounter		= 0;
+			outputs[GATE_OUTPUT + 0].value = 0.0f;
 		}
 		break;
 		
@@ -189,12 +191,16 @@ void Scorovnik::step() {
 			groupPlay[2] 		= 0;
 			mode2SeqCounterA	= 0;
 			mode2SeqCounterC	= 0;
+			outputs[GATE_OUTPUT + 0].value = 0;
+			outputs[GATE_OUTPUT + 2].value = 0;
 		}
 		if (globalResetTriger.process(params[SWITCH_RESET_PARAM].value)) {
 			mode2SeqA 			= -1;
 			mode2SeqC 			= 15;
 			mode2SeqCounterA	= 0;
 			mode2SeqCounterC	= 0;
+			outputs[GATE_OUTPUT + 0].value = 0.0f;
+			outputs[GATE_OUTPUT + 2].value = 0.0f;
 		}
 		break;
 		
@@ -218,6 +224,10 @@ void Scorovnik::step() {
 			mode3SeqCounterB	= 0;
 			mode3SeqCounterC	= 0;
 			mode3SeqCounterD	= 0;
+			outputs[GATE_OUTPUT + 0].value = 0;
+			outputs[GATE_OUTPUT + 1].value = 0;
+			outputs[GATE_OUTPUT + 2].value = 0;
+			outputs[GATE_OUTPUT + 3].value = 0;
 		}
 
 		if (globalResetTriger.process(params[SWITCH_RESET_PARAM].value)) {
@@ -229,6 +239,10 @@ void Scorovnik::step() {
 			mode3SeqCounterB	= 0;
 			mode3SeqCounterC	= 0;
 			mode3SeqCounterD	= 0;
+			outputs[GATE_OUTPUT + 0].value = 0.0f;
+			outputs[GATE_OUTPUT + 1].value = 0.0f;
+			outputs[GATE_OUTPUT + 2].value = 0.0f;
+			outputs[GATE_OUTPUT + 3].value = 0.0f;
 		}
 		break;
 	}
