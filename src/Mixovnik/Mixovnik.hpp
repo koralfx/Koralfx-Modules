@@ -83,7 +83,13 @@ struct Mixovnik : Module {
 	};
 
     int panelStyle 			= 0;
-
+    float antiPop [16]		= {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    float antiPopCurrentSpeed [16]		= {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    float antiPopMixLeft	= 0.0f;
+    float antiPopMixRight	= 0.0f;
+    float antiPopAux1		= 0.0f;
+    float antiPopAux2		= 0.0f;
+    float antiPopSpeed		= 0.0005f;
 ///////////////////////////////////////////////////////////////////////////////
 
     Mixovnik();
