@@ -391,8 +391,8 @@ void Scorovnik::step() {
 			//A+B+C+D group
 			case 0:
 			if (groupPlay[0] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode1Seq].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 0].value = notePitch + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode1Seq].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 0].value = notePitch + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode1Seq].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode1Seq].value ;
@@ -424,8 +424,8 @@ void Scorovnik::step() {
 			case 1:
 			//A
 			if (groupPlay[0] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode2SeqA].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 0].value = notePitch  + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode2SeqA].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 0].value = notePitch  + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode2SeqA].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode2SeqA].value ;
@@ -451,8 +451,8 @@ void Scorovnik::step() {
 
 			//C
 			if (groupPlay[2] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode2SeqC].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 2].value = notePitch  + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode2SeqC].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 2].value = notePitch  + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode2SeqC].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode2SeqC].value ;
@@ -484,8 +484,8 @@ void Scorovnik::step() {
 			case 2:
 			//A
 			if (groupPlay[0] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqA].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 0].value = notePitch  + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqA].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 0].value = notePitch  + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode3SeqA].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode3SeqA].value ;
@@ -511,8 +511,8 @@ void Scorovnik::step() {
 
 			//B
 			if (groupPlay[1] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqB].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 1].value = notePitch  + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqB].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 1].value = notePitch  + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode3SeqB].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode3SeqB].value ;
@@ -539,8 +539,8 @@ void Scorovnik::step() {
 
 			//C
 			if (groupPlay[2] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqC].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 2].value = notePitch  + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqC].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 2].value = notePitch  + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode3SeqC].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode3SeqC].value ;
@@ -567,8 +567,8 @@ void Scorovnik::step() {
 
 			//D
 			if (groupPlay[3] == 1) {
-				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqD].value)*(10/122.0) ;
-				outputs[PITCH_OUTPUT + 3].value = notePitch  + globalTranspose * (10/122.0) + uniOut;
+				notePitch 				= (params[SLIDER_NOTE_PITCH_PARAM 		+ mode3SeqD].value)*(10/120.0) ;
+				outputs[PITCH_OUTPUT + 3].value = notePitch  + globalTranspose * (10/120.0) + uniOut;
 
 				noteStaccato 			= params[SWITCH_NOTE_STACCATO_PARAM 	+ mode3SeqD].value ;
 				noteGate 				= params[SWITCH_NOTE_PAUSE_ACC_PARAM 	+ mode3SeqD].value ;
@@ -714,7 +714,7 @@ void Scorovnik::step() {
 				case 0:
 				notePulseGeneratorA.trigger(gateMonitorTime); 
 				outputs[GATE_OUTPUT + 0].value 			= 10;
-				outputs[PITCH_OUTPUT + 0].value 		= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+				outputs[PITCH_OUTPUT + 0].value 		= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 				
 				break;
 				
@@ -722,11 +722,11 @@ void Scorovnik::step() {
 				if (sliderTouch<16) {
 					notePulseGeneratorA.trigger(gateMonitorTime); 
 					outputs[GATE_OUTPUT + 0].value 		= 10;
-					outputs[PITCH_OUTPUT +0].value 		= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+					outputs[PITCH_OUTPUT +0].value 		= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 				} else {
 					notePulseGeneratorC.trigger(gateMonitorTime); 
 					outputs[GATE_OUTPUT + 2].value 		= 10;
-					outputs[PITCH_OUTPUT +2].value 		= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+					outputs[PITCH_OUTPUT +2].value 		= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 				}
 
 				break;
@@ -735,24 +735,24 @@ void Scorovnik::step() {
 				if (sliderTouch<8) {
 					notePulseGeneratorA.trigger(gateMonitorTime); 
 					outputs[GATE_OUTPUT + 0].value 		= 10;
-					outputs[PITCH_OUTPUT +0].value 		= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+					outputs[PITCH_OUTPUT +0].value 		= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 				}
 				if (sliderTouch >=8 && sliderTouch <24) {
 					if (sliderTouch<16) {
 						notePulseGeneratorB.trigger(gateMonitorTime); 
 						outputs[GATE_OUTPUT +1].value 	= 10;
-						outputs[PITCH_OUTPUT +1].value 	= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+						outputs[PITCH_OUTPUT +1].value 	= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 					} else {
 						notePulseGeneratorC.trigger(gateMonitorTime); 
 						outputs[GATE_OUTPUT +2].value 	= 10;
-						outputs[PITCH_OUTPUT +2].value 	= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+						outputs[PITCH_OUTPUT +2].value 	= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 					}
 				}
 
 				if (sliderTouch>=24) {
 					notePulseGeneratorD.trigger(gateMonitorTime); 
 					outputs[GATE_OUTPUT + 3].value 		= 10;
-					outputs[PITCH_OUTPUT +3].value 		= note * (10/122.0) + globalTranspose * (10/122.0) + uniOut;
+					outputs[PITCH_OUTPUT +3].value 		= note * (10/120.0) + globalTranspose * (10/120.0) + uniOut;
 				}
 				break;
 			} // End of Switch
@@ -808,7 +808,7 @@ void Scorovnik::fromJson(json_t *rootJ) {
 
 
 
-printf("%d\n", groupPlay[0]);
+
 
 
 	json_t *j_mode1SeqEnd = json_object_get(rootJ, "mode1SeqEnd");
