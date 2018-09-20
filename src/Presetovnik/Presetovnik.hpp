@@ -57,6 +57,7 @@ struct Presetovnik : Module {
 ///////////////////////////////////////////////////////////////////////////////
 
     int panelStyle 		= 0;
+    int cvMode          = 0;
 
     float pointerKnob [8] = {10.0, 10.0,10.0,10.0,10.0,10.0,10.0,10.0};
     NVGcolor colorPointer [8] ={nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff)};
