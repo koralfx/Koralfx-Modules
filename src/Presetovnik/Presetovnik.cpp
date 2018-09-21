@@ -105,7 +105,7 @@ void Presetovnik::step() {
 	for (int i = 0; i < 8 ; i += 1) {
 		float output = pointerKnob [i] * 10;
 		float uniOutput = (lights[UNI_LIGHT + i].value == 0) ? 5: 0;
-		if (!inputs[CV_PARAM_INPUT + i].active || cvMode == 1) {
+		if (!inputs[CV_PARAM_INPUT + i].active || (inputs[CV_PARAM_INPUT + i].active && cvMode == 1)) {
 			outputs[CV_PARAM_OUTPUT+ i].value = output - uniOutput;
 
 			if (cvMode == 1 && fabs(inputs[CV_PARAM_INPUT + i].value / 10 - pointerKnob [i])<0.001 ) {
