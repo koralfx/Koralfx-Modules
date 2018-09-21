@@ -108,7 +108,7 @@ void Presetovnik::step() {
 		if (!inputs[CV_PARAM_INPUT + i].active || (inputs[CV_PARAM_INPUT + i].active && cvMode == 1)) {
 			outputs[CV_PARAM_OUTPUT+ i].value = output - uniOutput;
 
-			if (cvMode == 1 && fabs(inputs[CV_PARAM_INPUT + i].value / 10 - pointerKnob [i])<0.001 ) {
+			if (cvMode == 1 && fabs((inputs[CV_PARAM_INPUT + i].value / 10) - pointerKnob [i])<0.001 ) {
 				colorPointer[i] = nvgRGB(0x55, 0xff, 0x55);
 			} else {
 				colorPointer[i] = nvgRGB(0x55, 0xaa, 0xff);
