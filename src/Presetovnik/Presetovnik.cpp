@@ -8,6 +8,12 @@ Presetovnik::Presetovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIG
 
 
 void Presetovnik::onReset() {
+	previousInputs.resize(8);
+		for (int k = 0; k < 8 ; k += 1) {
+			previousInputs[k] = 0.f;
+		}
+
+
 	//Default values
 	for (int i = 0; i < 10 ; i += 1) {
 		for (int k = 0; k < 8 ; k += 1) {
@@ -95,17 +101,25 @@ void Presetovnik::step() {
 			knobValue = inputs[CV_PARAM_INPUT + i].value / 10;
 			params[KNOB_PARAM + i].value = knobValue;
 		}
+		if (inputs[CV_PARAM_INPUT + i].active && cvMode == 2 && previousInputs[i] != inputs[CV_PARAM_INPUT + i].value) {
+			knobValue = inputs[CV_PARAM_INPUT + i].value / 10;
+			params[KNOB_PARAM + i].value = knobValue;
+			pointerKnob [i] = knobValue;
+			presetKnobMemory [preset][i] =  pointerKnob [i];
+		}
 		float pointerValue = pointerKnob [i];
 		if (fabs(knobValue - pointerValue)<0.001) {
 			pointerKnob [i] = knobValue;
 			presetKnobMemory [preset][i] =  pointerKnob [i];
 		}
+
+		previousInputs[i] = inputs[CV_PARAM_INPUT + i].value;
 	}
 
 	for (int i = 0; i < 8 ; i += 1) {
 		float output = pointerKnob [i] * 10;
 		float uniOutput = (lights[UNI_LIGHT + i].value == 0) ? 5: 0;
-		if (!inputs[CV_PARAM_INPUT + i].active || (inputs[CV_PARAM_INPUT + i].active && cvMode == 1)) {
+		if (!inputs[CV_PARAM_INPUT + i].active || (inputs[CV_PARAM_INPUT + i].active && cvMode > 0)) {
 			outputs[CV_PARAM_OUTPUT+ i].value = output - uniOutput;
 
 			if (cvMode == 1 && fabs((inputs[CV_PARAM_INPUT + i].value / 10) - pointerKnob [i])<0.001 ) {
@@ -319,6 +333,8 @@ void PresetovnikWidget::appendContextMenu(Menu *menu) {
     	&PresetovnikPanelCVItem::module, module, &PresetovnikPanelCVItem::cvMode, 0));
     menu->addChild(construct<PresetovnikPanelCVItem>(&MenuItem::text, "CV Programs Presets",
     	&PresetovnikPanelCVItem::module, module, &PresetovnikPanelCVItem::cvMode, 1));
+    menu->addChild(construct<PresetovnikPanelCVItem>(&MenuItem::text, "CV Programs Presets no pickup",
+    	&PresetovnikPanelCVItem::module, module, &PresetovnikPanelCVItem::cvMode, 2));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

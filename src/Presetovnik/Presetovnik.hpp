@@ -73,6 +73,7 @@ struct Presetovnik : Module {
     bool cvPresetInputActiveOld= false;
     int sourcePreset = 2; //2=internal Preset, 1= CV Preset
 
+    std::vector<float> previousInputs;
 
 	SchmittTrigger presetTrigger [10];
 	SchmittTrigger unipolarTrigger [8];
