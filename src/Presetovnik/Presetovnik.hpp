@@ -57,6 +57,7 @@ struct Presetovnik : Module {
 ///////////////////////////////////////////////////////////////////////////////
 
     int panelStyle 		= 0;
+    int cvMode          = 0;
 
     float pointerKnob [8] = {10.0, 10.0,10.0,10.0,10.0,10.0,10.0,10.0};
     NVGcolor colorPointer [8] ={nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff), nvgRGB(0x55, 0xaa, 0xff)};
@@ -72,6 +73,7 @@ struct Presetovnik : Module {
     bool cvPresetInputActiveOld= false;
     int sourcePreset = 2; //2=internal Preset, 1= CV Preset
 
+    std::vector<float> previousInputs;
 
 	SchmittTrigger presetTrigger [10];
 	SchmittTrigger unipolarTrigger [8];

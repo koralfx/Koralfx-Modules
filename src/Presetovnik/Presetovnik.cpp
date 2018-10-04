@@ -8,6 +8,12 @@ Presetovnik::Presetovnik() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIG
 
 
 void Presetovnik::onReset() {
+	previousInputs.resize(8);
+		for (int k = 0; k < 8 ; k += 1) {
+			previousInputs[k] = 0.f;
+		}
+
+
 	//Default values
 	for (int i = 0; i < 10 ; i += 1) {
 		for (int k = 0; k < 8 ; k += 1) {
@@ -91,19 +97,36 @@ void Presetovnik::step() {
 	//Display and store knobs pointers
 	for (int i = 0; i < 8 ; i += 1) {
 		float knobValue = params[KNOB_PARAM + i].value;
-		float pointerValue = pointerKnob [i];
-		if (fabs(knobValue - pointerValue)<0.001) {
-			pointerKnob [i] = params[KNOB_PARAM + i].value;
+		if (inputs[CV_PARAM_INPUT + i].active && cvMode == 1) {
+			knobValue = inputs[CV_PARAM_INPUT + i].value / 10;
+			params[KNOB_PARAM + i].value = knobValue;
+		}
+		if (inputs[CV_PARAM_INPUT + i].active && cvMode == 2 && previousInputs[i] != inputs[CV_PARAM_INPUT + i].value) {
+			knobValue = inputs[CV_PARAM_INPUT + i].value / 10;
+			params[KNOB_PARAM + i].value = knobValue;
+			pointerKnob [i] = knobValue;
 			presetKnobMemory [preset][i] =  pointerKnob [i];
 		}
+		float pointerValue = pointerKnob [i];
+		if (fabs(knobValue - pointerValue)<0.001) {
+			pointerKnob [i] = knobValue;
+			presetKnobMemory [preset][i] =  pointerKnob [i];
+		}
+
+		previousInputs[i] = inputs[CV_PARAM_INPUT + i].value;
 	}
 
 	for (int i = 0; i < 8 ; i += 1) {
 		float output = pointerKnob [i] * 10;
 		float uniOutput = (lights[UNI_LIGHT + i].value == 0) ? 5: 0;
-		if (!inputs[CV_PARAM_INPUT + i].active) {
+		if (!inputs[CV_PARAM_INPUT + i].active || (inputs[CV_PARAM_INPUT + i].active && cvMode > 0)) {
 			outputs[CV_PARAM_OUTPUT+ i].value = output - uniOutput;
-			colorPointer[i] = nvgRGB(0x55, 0xaa, 0xff);
+
+			if (cvMode == 1 && fabs((inputs[CV_PARAM_INPUT + i].value / 10) - pointerKnob [i])<0.001 ) {
+				colorPointer[i] = nvgRGB(0x55, 0xff, 0x55);
+			} else {
+				colorPointer[i] = nvgRGB(0x55, 0xaa, 0xff);
+			}
 		} else {
 			outputs[CV_PARAM_OUTPUT+ i].value = inputs[CV_PARAM_INPUT + i].value - uniOutput;
 			pointerKnob [i] = inputs[CV_PARAM_INPUT + i].value / 10;
@@ -122,6 +145,7 @@ void Presetovnik::step() {
 json_t *Presetovnik::toJson() {
     json_t *rootJ = json_object();
     json_object_set_new(rootJ, "panelStyle", json_integer(panelStyle));
+    json_object_set_new(rootJ, "cvMode", json_integer(cvMode));
 
     //preset
 
@@ -155,6 +179,9 @@ json_t *Presetovnik::toJson() {
 void Presetovnik::fromJson(json_t *rootJ) {
 	json_t *j_panelStyle = json_object_get(rootJ, "panelStyle");
 	panelStyle = json_integer_value(j_panelStyle);
+
+	json_t *j_cvMode = json_object_get(rootJ, "cvMode");
+	cvMode = json_integer_value(j_cvMode);
 
 
 	json_t *j_preset = json_object_get(rootJ, "preset");
@@ -275,6 +302,18 @@ struct PresetovnikPanelStyleItem : MenuItem {
     }
 };
 
+struct PresetovnikPanelCVItem : MenuItem {
+    Presetovnik* module;
+    int cvMode;
+    void onAction(EventAction &e) override {
+        module->cvMode = cvMode;
+    }
+    void step() override {
+        rightText = (module->cvMode == cvMode) ? "✔" : "";
+        MenuItem::step();
+    }
+};
+
 void PresetovnikWidget::appendContextMenu(Menu *menu) {
     Presetovnik *module = dynamic_cast<Presetovnik*>(this->module);
     assert(module);
@@ -287,6 +326,15 @@ void PresetovnikWidget::appendContextMenu(Menu *menu) {
     menu->addChild(construct<PresetovnikPanelStyleItem>(&MenuItem::text, "Happy Bright Day",
     	&PresetovnikPanelStyleItem::module, module, &PresetovnikPanelStyleItem::panelStyle, 1));
 
+		// CV Mode
+    menu->addChild(construct<MenuLabel>());
+    menu->addChild(construct<MenuLabel>(&MenuLabel::text, "CV Mode"));
+    menu->addChild(construct<PresetovnikPanelCVItem>(&MenuItem::text, "CV Overrides Output",
+    	&PresetovnikPanelCVItem::module, module, &PresetovnikPanelCVItem::cvMode, 0));
+    menu->addChild(construct<PresetovnikPanelCVItem>(&MenuItem::text, "CV Programs Presets",
+    	&PresetovnikPanelCVItem::module, module, &PresetovnikPanelCVItem::cvMode, 1));
+    menu->addChild(construct<PresetovnikPanelCVItem>(&MenuItem::text, "CV Programs Presets no pickup",
+    	&PresetovnikPanelCVItem::module, module, &PresetovnikPanelCVItem::cvMode, 2));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
