@@ -97,8 +97,7 @@ struct Beatovnik : Module {
 
 
 	void process(const ProcessArgs &args) override {
-		
-		float deltaTime = APP->engine->getSampleRate();
+		float deltaTime = APP->engine->getSampleTime();
 		if (inputs[CLOCK_INPUT].isConnected()) {
 			float clockInput = inputs[CLOCK_INPUT].getVoltage();
 			//A rising slope
@@ -312,7 +311,7 @@ struct Beatovnik : Module {
 
 		} //end of input active routine
 
-		bool pulse = LightPulseGenerator.process(1.0 / APP->engine->getSampleRate());
+		bool pulse = LightPulseGenerator.process(1.0 / APP->engine->getSampleTime());
 		if (pulse == 0) lights[CLOCK_LIGHT].value = 0;
 		
 	}

@@ -225,7 +225,7 @@ void process(const ProcessArgs &args) override {
 		notePitchDisplay 	= "--";
 	}
 	
-	float deltaTime 		= APP->engine->getSampleRate();
+	float deltaTime 		= APP->engine->getSampleTime();
 	bool clockGateOn 		= false;
 	float noteTime 			= 0;
 	int uniOut 				= 0 + params[SWITCH_UNI_PARAM].getValue() * 5 ;
