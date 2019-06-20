@@ -50,11 +50,17 @@ struct Presetovnik : Module {
 	dsp::SchmittTrigger unipolarTrigger [8];
 
 	Presetovnik() {
-			config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
-	configParam(KNOB_PARAM, 0.0f, 1.0f, 0.5f);
-	configParam(LED_BUTTON_PRESET_PARAM, 0, 1, 0 );
-	configParam(LED_UNI_PARAM, 0, 1, 0 );
+		for (int i = 0; i < 4 ; i += 1) {
+			for (int k = 0; k < 2 ; k += 1) {
+				configParam(KNOB_PARAM + (i * 2 + k), 0.0f, 1.0f, 0.5f);
+				configParam(LED_UNI_PARAM + (i * 2 + k), 0, 1, 0 );
+			}
+		}
+		for (int i = 0; i < 10 ; i += 1) {
+			configParam(LED_BUTTON_PRESET_PARAM + i, 0, 1, 0 );
+		}
 
 		onReset();
 	}

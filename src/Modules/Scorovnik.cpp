@@ -186,11 +186,13 @@ struct Scorovnik : Module {
 	Scorovnik() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
-		configParam(SLIDER_NOTE_LENGTH_PARAM, 0, 4, 0);
-		configParam(SLIDER_NOTE_PITCH_PARAM, -24, 24, 0);
-		configParam(SWITCH_NOTE_DOT_TRI_PARAM, 0, 2, 0);
-		configParam(SWITCH_NOTE_PAUSE_ACC_PARAM, 0, 2, 1);
-		configParam(SWITCH_NOTE_STACCATO_PARAM, 0, 1, 0);
+		for (int i = 0; i < 32; i++) {
+			configParam(SLIDER_NOTE_LENGTH_PARAM + i, 0, 4, 0);
+			configParam(SLIDER_NOTE_PITCH_PARAM + i, -24, 24, 0);
+			configParam(SWITCH_NOTE_DOT_TRI_PARAM + i, 0, 2, 0);
+			configParam(SWITCH_NOTE_PAUSE_ACC_PARAM + i, 0, 2, 1);
+			configParam(SWITCH_NOTE_STACCATO_PARAM + i, 0, 1, 0);
+		}
 		configParam(LED_BUTTON_PARAM, 0, 1, 0);
 		configParam(TEMPO_PARAM, 40, 250, 120);
 		configParam(TRANSPOSE_PARAM, -24, 24, 0);
@@ -202,6 +204,9 @@ struct Scorovnik : Module {
 		configParam(SWITCH_MONITOR_PARAM, 0, 1, 1);
 		configParam(SWITCH_UNI_PARAM, 0, 1, 0);
 	}
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
