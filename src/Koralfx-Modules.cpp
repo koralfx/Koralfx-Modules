@@ -1,14 +1,10 @@
 #include "Koralfx-Modules.hpp"
 
-// The plugin-wide instance of the Plugin class
-Plugin *plugin;
+// The pluginInstance-wide instance of the Plugin class
+Plugin *pluginInstance;
 
 void init(rack::Plugin *p) {
-	plugin = p;
-	p->slug = TOSTRING(SLUG);
-	p->version = TOSTRING(VERSION);
-	p->website = "https://github.com/koralfx/Koralfx-Modules";
-	p->manual = "https://github.com/koralfx/Koralfx-Modules/blob/master/README.md";
+	pluginInstance = p;
 	
     p->addModel(modelBeatovnik);
     p->addModel(modelMixovnik);

@@ -1,6 +1,6 @@
 KoralFX VCV Plugins License
 
-Copyright (c) 2018, Tomasz Sosnowski
+Copyright (c) 2019, Tomasz Sosnowski
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
