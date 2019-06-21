@@ -17,10 +17,6 @@ You can support the development by making a donation, it will be appreciated!
 ### Dark style
 ![](https://github.com/koralfx/KoralfxVCV/blob/master/Koralfx-Modules-Dark.png)
 
-### Light style
-![](https://github.com/koralfx/KoralfxVCV/blob/master/Koralfx-Modules-Light.png)
-
-
 ## Beatovnik
 Based on the external BPM clock, the module generates 2x and 4x multiply and 2x and 4x divide clock signals. In addition, you can set the pulse width (proportionally for all outputs). The last important thing - CV output compatible 100% with Fundamental Delay CV Time input. This is a CV to time conversion, of course based on BPM.
 
