@@ -151,9 +151,9 @@ struct Koralfx_RoundBlackKnob : RoundKnob {
 // Led buttons
 ///////////////////////////////////////////////////////////////////////////////
 
-struct Koralfx_LEDButton : SvgSwitch {
-	//momentary = true;
+struct Koralfx_LEDButton : app::SvgSwitch {
 	Koralfx_LEDButton() {
+		momentary = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance,"res/Koralfx_LEDButton.svg")));
 	}
 };

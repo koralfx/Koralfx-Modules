@@ -1,4 +1,4 @@
-#include "../Koralfx-Modules.hpp"
+#include "../KoralFX.hpp"
 #include "../KoralfxComponents.hpp"
 #include <string>
 

@@ -1,5 +1,5 @@
 #include "app.hpp"
-#include "../Koralfx-Modules.hpp"
+#include "../KoralFX.hpp"
 #include "../KoralfxComponents.hpp"
 
 

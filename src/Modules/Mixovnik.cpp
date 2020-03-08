@@ -1,4 +1,4 @@
-#include "../Koralfx-Modules.hpp"
+#include "../KoralFX.hpp"
 #include "../KoralfxComponents.hpp"
 
 #define PI_4 0.78539816339

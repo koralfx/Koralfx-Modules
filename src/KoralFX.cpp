@@ -1,4 +1,4 @@
-#include "Koralfx-Modules.hpp"
+#include "KoralFX.hpp"
 
 // The pluginInstance-wide instance of the Plugin class
 Plugin *pluginInstance;

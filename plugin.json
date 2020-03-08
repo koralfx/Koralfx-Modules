@@ -1,9 +1,9 @@
 {
-  "slug": "Koralfx-Modules",
-  "name": "Koralfx-Modules",
-  "version": "1.0.2",
+  "slug": "KoralFX",
+  "name": "KoralFX",
+  "version": "1.0.3",
   "license": "BSD-3-Clause",
-  "brand": "Koralfx-Modules",
+  "brand": "KoralFX",
   "author": "Tomasz Sosnowski",
   "authorEmail": "koralfx@gmail.com",
   "authorUrl": "koralfx.com",
