@@ -165,36 +165,38 @@ struct Koralfx_LEDButton : app::SvgSwitch {
 struct Seg3DisplayWidget : TransparentWidget {
 	std::string *value;
 	NVGcolor *colorDisplay;
-	std::shared_ptr<Font> font;
 
 	Seg3DisplayWidget() {
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
 	};
 
 	void draw(const DrawArgs &args) override {
 
-		nvgFontSize(args.vg, 13);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, 2.0);
+		std::shared_ptr<Font> font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
 
-		std::stringstream to_display;
+		if (font) {
+			nvgFontSize(args.vg, 13);
+			nvgFontFaceId(args.vg, font->handle);
+			nvgTextLetterSpacing(args.vg, 2.0);
 
-		to_display << std::setw(3) << *value;
-		//to_display << std::setw(3) << "10";
+			std::stringstream to_display;
 
-		Vec textPos = Vec(4.0f, 17.0f); 
+			to_display << std::setw(3) << *value;
+			//to_display << std::setw(3) << "10";
 
-		NVGcolor textColor = *colorDisplay;
-		//NVGcolor textColor = nvgRGB(0xff, 0xcc, 0x00);
+			Vec textPos = Vec(4.0f, 17.0f);
 
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 30));
-		nvgText(args.vg, textPos.x, textPos.y, "888", NULL);
-		
-		textColor = *colorDisplay;
-		//textColor = nvgRGB(0xff, 0xcc, 0x00);;
+			NVGcolor textColor = *colorDisplay;
+			//NVGcolor textColor = nvgRGB(0xff, 0xcc, 0x00);
 
-		nvgFillColor(args.vg, textColor);
-		nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
+			nvgFillColor(args.vg, nvgTransRGBA(textColor, 30));
+			nvgText(args.vg, textPos.x, textPos.y, "888", NULL);
+
+			textColor = *colorDisplay;
+			//textColor = nvgRGB(0xff, 0xcc, 0x00);;
+
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
+		}
 	}
 };
 
@@ -203,30 +205,32 @@ struct Seg3DisplayWidget : TransparentWidget {
 struct Dot3DisplayWidget : TransparentWidget {
 	std::string *value;
 	NVGcolor *colorDisplay;
-	std::shared_ptr<Font> font;
 
 	Dot3DisplayWidget() {
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/LCD_Dot_Matrix_HD44780U.ttf"));
 	};
 
 	void draw(const DrawArgs &args) override {
 
-		nvgFontSize(args.vg, 17);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, 2.0);
+		std::shared_ptr<Font> font = APP->window->loadFont(asset::plugin(pluginInstance, "res/LCD_Dot_Matrix_HD44780U.ttf"));
 
-		std::stringstream to_display;
-		to_display << std::setw(3) << *value;
+		if (font) {
+			nvgFontSize(args.vg, 17);
+			nvgFontFaceId(args.vg, font->handle);
+			nvgTextLetterSpacing(args.vg, 2.0);
 
-		Vec textPos = Vec(4.0f, 17.0f); 
+			std::stringstream to_display;
+			to_display << std::setw(3) << *value;
 
-		NVGcolor textColor = *colorDisplay;
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 76));
-		nvgText(args.vg, textPos.x, textPos.y, "॓॓॓", NULL);
+			Vec textPos = Vec(4.0f, 17.0f);
 
-		textColor = *colorDisplay;
-		nvgFillColor(args.vg, textColor);
-		nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
+			NVGcolor textColor = *colorDisplay;
+			nvgFillColor(args.vg, nvgTransRGBA(textColor, 76));
+			nvgText(args.vg, textPos.x, textPos.y, "॓॓॓", NULL);
+
+			textColor = *colorDisplay;
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
+		}
 	}
 };
 
@@ -235,30 +239,32 @@ struct Dot3DisplayWidget : TransparentWidget {
 struct Dot2DisplayWidget : TransparentWidget {
 	std::string *value;
 	NVGcolor *colorDisplay;
-	std::shared_ptr<Font> font;
 
 	Dot2DisplayWidget() {
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/LCD_Dot_Matrix_HD44780U.ttf"));
 	};
 
 	void draw(const DrawArgs &args) override {
 
-		nvgFontSize(args.vg, 17);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, 2.0);
+		std::shared_ptr<Font> font = APP->window->loadFont(asset::plugin(pluginInstance, "res/LCD_Dot_Matrix_HD44780U.ttf"));
 
-		std::stringstream to_display;
-		to_display << std::setw(2) << *value;
+		if (font) {
+			nvgFontSize(args.vg, 17);
+			nvgFontFaceId(args.vg, font->handle);
+			nvgTextLetterSpacing(args.vg, 2.0);
 
-		Vec textPos = Vec(4.0f, 17.0f); 
+			std::stringstream to_display;
+			to_display << std::setw(2) << *value;
 
-		NVGcolor textColor = *colorDisplay;
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 76));
-		nvgText(args.vg, textPos.x, textPos.y, "॓॓", NULL);
+			Vec textPos = Vec(4.0f, 17.0f);
 
-		textColor = *colorDisplay;
-		nvgFillColor(args.vg, textColor);
-		nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
+			NVGcolor textColor = *colorDisplay;
+			nvgFillColor(args.vg, nvgTransRGBA(textColor, 76));
+			nvgText(args.vg, textPos.x, textPos.y, "॓॓", NULL);
+
+			textColor = *colorDisplay;
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
+		}
 	}
 };
  
