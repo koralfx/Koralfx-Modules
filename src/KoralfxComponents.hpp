@@ -1,7 +1,6 @@
 #ifndef KORALFX_COMPONENTS_HPP
 #define KORALFX_COMPONENTS_HPP
-
-#include "app.hpp"
+#endif
 
 #include <sstream>
 #include <iomanip>
@@ -319,6 +318,3 @@ float d = 22.0;
 
 
 ///////////////////////////////////////
-
-
-#endif

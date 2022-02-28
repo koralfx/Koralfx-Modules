@@ -1,4 +1,3 @@
-#include "app.hpp"
 #include "../KoralFX.hpp"
 #include "../KoralfxComponents.hpp"
 
