@@ -107,9 +107,8 @@ struct Koralfx_CKD6_Blue : app::SvgSwitch {
 // Step Knobs
 ///////////////////////////////////////////////////////////////////////////////
 
-struct Koralfx_StepRoundSmallBlackKnob : RoundKnob {
+struct Koralfx_StepRoundSmallBlackKnob : RoundSmallBlackKnob {
 	Koralfx_StepRoundSmallBlackKnob() {
-		setSvg(APP->window->loadSvg(asset::system("res/ComponentLibrary/RoundSmallBlackKnob.svg")));
 		snap = true;
 		this->shadow->box.size = Vec(30, 30);
 		this->shadow->blurRadius = 5;
@@ -118,9 +117,8 @@ struct Koralfx_StepRoundSmallBlackKnob : RoundKnob {
 	}
 };
 ///////////////////////////////////////
-struct Koralfx_StepRoundLargeBlackKnob : RoundKnob {
+struct Koralfx_StepRoundLargeBlackKnob : RoundLargeBlackKnob {
 	Koralfx_StepRoundLargeBlackKnob() {
-		setSvg(APP->window->loadSvg(asset::system("res/ComponentLibrary/RoundLargeBlackKnob.svg")));
 		snap = true;
 		this->shadow->box.size = Vec(45, 45);
 		this->shadow->blurRadius = 7;
@@ -134,9 +132,8 @@ struct Koralfx_StepRoundLargeBlackKnob : RoundKnob {
 // Continuous Knobs
 ///////////////////////////////////////////////////////////////////////////////
 
-struct Koralfx_RoundBlackKnob : RoundKnob {
+struct Koralfx_RoundBlackKnob : RoundBlackKnob {
 	Koralfx_RoundBlackKnob() {
-		setSvg(APP->window->loadSvg(asset::system("res/ComponentLibrary/RoundBlackKnob.svg")));
 		snap = false;
 		this->shadow->box.size = Vec(34, 34);
 		this->shadow->blurRadius = 4;
